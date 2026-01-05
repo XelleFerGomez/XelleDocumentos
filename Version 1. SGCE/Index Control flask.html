@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEGUIMIENTO DE COSECHA CELULAR</title>
+    <link rel="stylesheet" href="css Control Flask.css">
+    <script src="javascript Control Flask.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Encabezado superior con logo y número de registro -->
+        <div class="header-top">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img class="logo-image" src="XelleScientific.png" alt="Logo XelleScientific">
+                </div>
+            </div>
+            
+            <div class="registry-number">
+                <label class="required">No. Registro FO-LC-20</label>
+                <div class="registry-field" contenteditable="true" id="registry-number">001</div>
+            </div>
+        </div>
+
+        <!-- Encabezado principal -->
+        <div class="header">
+            <h1>SEGUIMIENTO DE COSECHA CELULAR</h1>
+            <div><p>Cosecha - Control y Trazabilidad de Muestras</p></div>
+            <div class="metadata">
+                <div><p><strong>Código:</strong> Clave: FO-OP-20 | <strong>Versión:</strong> 1.0 | <strong>Página 1 de 1</strong></p></div>
+            </div>
+        </div>
+
+        <div class="global-controls no-print">
+            <button class="btn btn-success" onclick="saveAllData()">Guardar Todo</button>
+            <button class="btn btn-primary" onclick="printAll()">Imprimir Todo</button>
+            <button class="btn btn-info" onclick="generateWeeklyReport()">Reporte Semanal PDF</button>
+            <button class="btn btn-warning" onclick="generateDailyReport()">Reporte Diario PDF</button>
+            <button class="btn btn-danger" onclick="clearAllData()">Limpiar Formato</button>
+        </div>
+
+        <div class="section">
+            <div class="section-title">1. INFORMACIÓN GENERAL</div>
+            <table>
+                <tr>
+                    <td width="15%"><strong>Semana del:</strong></td>
+                    <td width="20%"><input type="date" id="week-start" onchange="updateDayDates()"></td>
+                    <td width="10%"><strong>al:</strong></td>
+                    <td width="20%"><input type="date" id="week-end"></td>
+                    <td width="35%"></td>
+                </tr>
+                <tr>
+                    <td><strong>Responsable:</strong></td>
+                    <td colspan="4"><input type="text" id="responsible" style="width: 100%;"></td>
+                </tr>
+                <tr>
+                    <td><strong>Línea Celular:</strong></td>
+                    <td colspan="4"><input type="text" id="cell-line" style="width: 100%;"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Secciones para cada día (Lunes a Sábado) -->
+        <div class="day-section" id="monday-section">
+            <div class="day-title">
+                <span>LUNES - <span id="monday-date"></span></span>
+                <div class="day-controls no-print">
+                    <button class="btn btn-success" onclick="saveDay('monday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('monday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('monday')">Reporte PDF</button>
+                </div>
+            </div>
+            
+            <!-- Contenido del día -->
+            <div class="section">
+                <div class="section-title">Recipientes en Cultivo</div>
+                <div class="table-controls no-print">
+                    <button class="btn btn-primary" onclick="addRecipientRow('monday')">Agregar Recipiente</button>
+                </div>
+                <table id="monday-recipients">
+                    <thead>
+                        <tr>
+                            <th width="20%">Línea</th>
+                            <th width="15%">FI</th>
+                            <th width="10%">Número</th>
+                            <th width="15%">Código</th>
+                            <th width="15%">Tipo</th>
+                            <th width="15%">Estado</th>
+                            <th width="30%">Observaciones</th>
+                            <th width="10%" class="no-print">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="7"><strong>Total de Recipientes:</strong></td>
+                            <td id="monday-recipients-total">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Control de Cultivos</div>
+                <div class="table-controls no-print">
+                    <button class="btn btn-primary" onclick="addHarvestRow('monday')">Agregar Control</button>
+                </div>
+                <table id="monday-harvest">
+                    <thead>
+                        <tr>
+                            <th width="15%">Código</th>
+                            <th width="15%">Recipiente</th>
+                            <th width="15%">Células Obtenidas</th>
+                            <th width="15%">Viabilidad (%)</th>
+                            <th width="15%">Destino</th>
+                            <th width="20%">Observaciones</th>
+                            <th width="10%" class="no-print">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Total Cosechado:</strong></td>
+                            <td id="monday-harvest-total">0</td>
+                            <td colspan="4"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+           <!--  <div class="section">
+                <div class="section-title">Dosis Preparadas</div>
+                <div class="table-controls no-print">
+                    <button class="btn btn-primary" onclick="addDoseRow('monday')">Agregar Dosis</button>
+                </div>
+                <table id="monday-doses">
+                    <thead>
+                        <tr>
+                            <th width="20%">Producto</th>
+                            <th width="15%">Presentación</th>
+                            <th width="15%">Cantidad</th>
+                            <th width="15%">Lote</th>
+                            <th width="20%">Células Utilizadas</th>
+                            <th width="15%" class="no-print">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4"><strong>Total Células en Dosis:</strong></td>
+                            <td id="monday-doses-total">0</td>
+                            <td class="no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div> -->
+
+            <div class="section">
+                <div class="section-title">Inventario Final del Día</div>
+                <table id="monday-inventory">
+                    <thead>
+                        <tr>
+                            <th width="30%">Destino</th>
+                            <th width="35%">Células</th>
+                            <th width="35%">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dosificadas</td>
+                            <td id="monday-dosed">0</td>
+                            <td><input type="text" style="width: 100%;" class="inventory-notes" data-day="monday" data-type="dosed"></td>
+                        </tr>
+                        <tr>
+                            <td>Refrigeración</td>
+                            <td id="monday-refrigeration">0</td>
+                            <td><input type="text" style="width: 100%;" class="inventory-notes" data-day="monday" data-type="refrigeration"></td>
+                        </tr>
+                        <tr>
+                            <td>Criopreservadas</td>
+                            <td id="monday-cryopreserved">0</td>
+                            <td><input type="text" style="width: 100%;" class="inventory-notes" data-day="monday" data-type="cryopreserved"></td>
+                        </tr>
+                        <tr>
+                            <td>Desechadas</td>
+                            <td id="monday-discarded">0</td>
+                            <td><input type="text" style="width: 100%;" class="inventory-notes" data-day="monday" data-type="discarded"></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td><strong>Total del Día:</strong></td>
+                            <td id="monday-total-day">0</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="signature-area">
+                <div class="signature-box">
+                    <p>Realizó:</p>
+                    <p>Nombre: ___________________________</p>
+                    <p>Firma: ___________________________</p>
+                    <p>Fecha: ___________________________</p>
+                </div>
+                <div class="signature-box">
+                    <p>Revisó:</p>
+                    <p>Nombre: ___________________________</p>
+                    <p>Firma: ___________________________</p>
+                    <p>Fecha: ___________________________</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repetir la misma estructura para martes, miércoles, jueves, viernes, sábado -->
+        <div class="day-section" id="tuesday-section">
+            <div class="day-title">
+                <span>MARTES - <span id="tuesday-date"></span></span>
+                <div class="day-controls no-print">
+                    <button class="btn btn-success" onclick="saveDay('tuesday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('tuesday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('tuesday')">Reporte PDF</button>
+                </div>
+            </div>
+            <!-- Misma estructura que LUNES -->
+        </div>
+
+        <div class="day-section" id="wednesday-section">
+            <div class="day-title">
+                <span>MIÉRCOLES - <span id="wednesday-date"></span></span>
+                <div class="day-controls no-print">
+                    <button class="btn btn-success" onclick="saveDay('wednesday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('wednesday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('wednesday')">Reporte PDF</button>
+                </div>
+            </div>
+            <!-- Misma estructura que LUNES -->
+        </div>
+
+        <div class="day-section" id="thursday-section">
+            <div class="day-title">
+                <span>JUEVES - <span id="thursday-date"></span></span>
+                <div class="day-controls no-print">
+                    <button class="btn btn-success" onclick="saveDay('thursday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('thursday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('thursday')">Reporte PDF</button>
+                </div>
+            </div>
+            <!-- Misma estructura que LUNES -->
+        </div>
+
+        <div class="day-section" id="friday-section">
+            <div class="day-title">
+                <span>VIERNES - <span id="friday-date"></span></span>
+                <div class="day-controls no-print">
+                    <button class="btn btn-success" onclick="saveDay('friday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('friday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('friday')">Reporte PDF</button>
+                </div>
+            </div>
+            <!-- Misma estructura que LUNES -->
+        </div>
+
+        <div class="day-section" id="saturday-section">
+            <div class="day-title">
+                <span>SÁBADO - <span id="saturday-date"></span></span>
+                <div class="day-controls no-print">
+                    <button class="btn btn-success" onclick="saveDay('saturday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('saturday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('saturday')">Reporte PDF</button>
+                </div>
+            </div>
+            <!-- Misma estructura que LUNES -->
+        </div>
+
+        <!-- RESUMEN SEMANAL -->
+        <div class="week-summary">
+            <div class="section-title">RESUMEN SEMANAL</div>
+            <div class="summary-controls no-print">
+                <button class="btn btn-success" onclick="saveWeek()">Guardar Semana</button>
+                <button class="btn btn-primary" onclick="printWeek()">Imprimir Resumen</button>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Lunes</th>
+                        <th>Martes</th>
+                        <th>Miércoles</th>
+                        <th>Jueves</th>
+                        <th>Viernes</th>
+                        <th>Sábado</th>
+                        <th>Total Semana</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Recipientes Activos</td>
+                        <td id="week-monday-recipients">0</td>
+                        <td id="week-tuesday-recipients">0</td>
+                        <td id="week-wednesday-recipients">0</td>
+                        <td id="week-thursday-recipients">0</td>
+                        <td id="week-friday-recipients">0</td>
+                        <td id="week-saturday-recipients">0</td>
+                        <td id="week-total-recipients">0</td>
+                    </tr>
+                    <tr>
+                        <td>Células Cosechadas</td>
+                        <td id="week-monday-harvest">0</td>
+                        <td id="week-tuesday-harvest">0</td>
+                        <td id="week-wednesday-harvest">0</td>
+                        <td id="week-thursday-harvest">0</td>
+                        <td id="week-friday-harvest">0</td>
+                        <td id="week-saturday-harvest">0</td>
+                        <td id="week-total-harvest">0</td>
+                    </tr>
+                    <tr>
+                        <td>Células Dosificadas</td>
+                        <td id="week-monday-dosed">0</td>
+                        <td id="week-tuesday-dosed">0</td>
+                        <td id="week-wednesday-dosed">0</td>
+                        <td id="week-thursday-dosed">0</td>
+                        <td id="week-friday-dosed">0</td>
+                        <td id="week-saturday-dosed">0</td>
+                        <td id="week-total-dosed">0</td>
+                    </tr>
+                    <tr>
+                        <td>Células Refrigeradas</td>
+                        <td id="week-monday-refrigeration">0</td>
+                        <td id="week-tuesday-refrigeration">0</td>
+                        <td id="week-wednesday-refrigeration">0</td>
+                        <td id="week-thursday-refrigeration">0</td>
+                        <td id="week-friday-refrigeration">0</td>
+                        <td id="week-saturday-refrigeration">0</td>
+                        <td id="week-total-refrigeration">0</td>
+                    </tr>
+                    <tr>
+                        <td>Células Criopreservadas</td>
+                        <td id="week-monday-cryopreserved">0</td>
+                        <td id="week-tuesday-cryopreserved">0</td>
+                        <td id="week-wednesday-cryopreserved">0</td>
+                        <td id="week-thursday-cryopreserved">0</td>
+                        <td id="week-friday-cryopreserved">0</td>
+                        <td id="week-saturday-cryopreserved">0</td>
+                        <td id="week-total-cryopreserved">0</td>
+                    </tr>
+                    <tr>
+                        <td>Células Desechadas</td>
+                        <td id="week-monday-discarded">0</td>
+                        <td id="week-tuesday-discarded">0</td>
+                        <td id="week-wednesday-discarded">0</td>
+                        <td id="week-thursday-discarded">0</td>
+                        <td id="week-friday-discarded">0</td>
+                        <td id="week-saturday-discarded">0</td>
+                        <td id="week-total-discarded">0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>Total General:</strong></td>
+                        <td id="week-monday-total">0</td>
+                        <td id="week-tuesday-total">0</td>
+                        <td id="week-wednesday-total">0</td>
+                        <td id="week-thursday-total">0</td>
+                        <td id="week-friday-total">0</td>
+                        <td id="week-saturday-total">0</td>
+                        <td id="week-total-general">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Formato FO-OP-20-C | Versión 1.0 | Seguimiento de Cosecha y Dosificación</p>
+            <p>El contenido de este documento es propiedad de "Xelle Scientific", S.A.P.I., de C.V., y está protegido por los derechos de autor, por lo que está prohibida su reproducción total o parcial.</p>
+        </div>
+    </div>
+
+    <script src="javascript.js"></script>
+</body>
+</html>

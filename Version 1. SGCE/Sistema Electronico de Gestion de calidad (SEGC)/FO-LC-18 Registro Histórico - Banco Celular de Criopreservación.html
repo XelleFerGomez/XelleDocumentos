@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Histórico - Banco Celular de Criopreservación</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Calibri', 'Arial', sans-serif;
+        }
+        
+        body {
+            background: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .document {
+            width: 21cm;
+            min-height: 29.7cm;
+            background: white;
+            padding: 2cm;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .logo-container {
+            width: 30%;
+        }
+        
+        .logo-placeholder {
+            width: 150px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+        }
+        
+        .logo-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .registry-number {
+            width: 30%;
+            text-align: right;
+        }
+        
+        .registry-field {
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            font-size: 11pt;
+            text-align: center;
+            background: #f9f9f9;
+            margin-top: 5px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px double #2c3e50;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 20pt;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .header p {
+            font-size: 12pt;
+            color: #666;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            background: #2c3e50;
+            color: white;
+            padding: 8px 15px;
+            font-size: 14pt;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-radius: 3px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 11pt;
+            color: #2c3e50;
+        }
+        
+        .field {
+            border-bottom: 1px solid #ccc;
+            padding: 8px 5px;
+            min-height: 35px;
+            font-size: 11pt;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+        
+        .signature-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #2c3e50;
+        }
+        
+        .signature-box {
+            text-align: center;
+        }
+        
+        .signature-line {
+            border-bottom: 1px solid #2c3e50;
+            height: 60px;
+            margin: 15px 0;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 1cm;
+            left: 2cm;
+            right: 2cm;
+            text-align: center;
+            font-size: 9pt;
+            color: #666;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        .instructions {
+            font-size: 9pt;
+            color: #666;
+            font-style: italic;
+            margin-top: 3px;
+        }
+        
+        .examples {
+            font-size: 9pt;
+            color: #7f8c8d;
+            margin-top: 3px;
+            padding-left: 10px;
+            border-left: 2px solid #bdc3c7;
+        }
+        
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 10pt;
+        }
+        
+        .inventory-table th, .inventory-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .inventory-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        .inventory-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .inventory-table tr:hover {
+            background-color: #f0f8ff;
+        }
+        
+        .action-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .action-btn {
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-print {
+            background: #2c3e50;
+        }
+        
+        .btn-pdf {
+            background: #e74c3c;
+        }
+        
+        .btn-clear {
+            background: #95a5a6;
+        }
+        
+        .btn-add {
+            background: #27ae60;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .document {
+                width: 100%;
+                height: 100%;
+                box-shadow: none;
+                padding: 1.5cm;
+                margin: 0;
+            }
+            
+            .action-buttons {
+                display: none !important;
+            }
+            
+            @page {
+                margin: 0.5cm;
+                size: A4;
+                @top-left { content: ''; }
+                @top-center { content: ''; }
+                @top-right { content: ''; }
+                @bottom-left { content: ''; }
+                @bottom-center { content: ''; }
+                @bottom-right { content: ''; }
+            }
+            
+            a[href]:after {
+                content: none !important;
+            }
+            
+            .document:after {
+                content: none !important;
+            }
+        }
+        
+        @media screen {
+            .document::before,
+            .document::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document">
+        <div class="top-header">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img class="logo-image" src="XelleScientific.png" alt="Logo XelleScientific">
+                </div>
+            </div>
+            
+            <div class="registry-number">
+                <label class="required">No. Registro Histórico </label>
+                <div class="registry-field" contenteditable="true">FO-LC-18-001</div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>REGISTRO HISTÓRICO - BANCO CELULAR DE CRIOPRESERVACIÓN</h1>
+            <p>Inventario Maestro y Trazabilidad de Muestras</p>
+            <p><strong>Código:</strong> FO-LC-18 | <strong>Versión:</strong> 1.0 | <strong>Página 1 de 1</strong></p>
+            <p><strong>Referencia:</strong> Formato FO-LC-17 (Registro de Criopreservación)</p>
+        </div>
+
+        <!-- Sección 1: Información General del Registro -->
+        <div class="section">
+            <div class="section-title">1. INFORMACIÓN GENERAL DEL REGISTRO</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="required">Fecha del Registro</label>
+                    <div class="field" contenteditable="true">16/10/2025</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="required">Tipo de Banco</label>
+                    <div class="field" contenteditable="true">Banco Celular de Trabajo</div>
+                    <div class="instructions">Especifique el tipo de banco: Trabajo, Maestro o Producción</div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label class="required">Responsable del Registro</label>
+                    <div class="field" contenteditable="true">Mtro. Luis Fernando Mendoza Gómez</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 2: Inventario Detallado de Muestras -->
+        <div class="section">
+            <div class="section-title">2. INVENTARIO DETALLADO DE MUESTRAS</div>
+            
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Código Muestra</th>
+                        <th>Línea Celular</th>
+                        <th>Fecha Congelación</th>
+                        <th>Ubicación</th>
+                        <th>Crioviales</th>
+                        <th>Estado</th>
+                        <th>Ref. FO-LC-17</th>
+                        <th>Ref. Movimiento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">TPL27 251015</td>
+                        <td contenteditable="true">MSC placa corionica (PC-MSC)</td>
+                        <td contenteditable="true">16/10/2025</td>
+                        <td contenteditable="true">TNK-04/B-15</td>
+                        <td contenteditable="true">12</td>
+                        <td contenteditable="true">Activo</td>
+                        <td contenteditable="true">16/10/2025</td>
+                        <td contenteditable="true">FO-LC-18-001</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">TPL28 251016</td>
+                        <td contenteditable="true">MSC derivadas de la decidua (D-MSC)</td>
+                        <td contenteditable="true">17/10/2025</td>
+                        <td contenteditable="true">TNK-02/C-08</td>
+                        <td contenteditable="true">6</td>
+                        <td contenteditable="true">Activo</td>
+                        <td contenteditable="true">17/10/2025</td>
+                        <td contenteditable="true">FO-LC-18-002</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">TPL29 251017</td>
+                        <td contenteditable="true">Mesenquimal cordón (CU-MSC)</td>
+                        <td contenteditable="true">18/10/2025</td>
+                        <td contenteditable="true">REFR-01/A-03</td>
+                        <td contenteditable="true">5</td>
+                        <td contenteditable="true">Activo</td>
+                        <td contenteditable="true">18/10/2025</td>
+                        <td contenteditable="true">FO-LC-18-003</td>
+                    </tr>
+                    <!-- Filas adicionales -->
+                    <tr>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"></td>
+                    </tr>  
+                </tbody>
+            </table>
+            
+            <div class="instructions" style="margin-top: 10px;">
+                Nota: 
+                - "Ref. FO-LC-17": Número de registro del Formato de Criopreservación original
+                - "Ref. Movimiento": Número de registro del Formato de Movimiento correspondiente
+            </div>
+        </div>
+
+        <!-- Sección 3: Firmas -->
+        <div class="section">
+            <div class="section-title">3. FIRMAS</div>
+            
+            <div class="signature-area">
+                <div class="signature-box">
+                    <div><strong>Firma del Responsable</strong></div>
+                    <div class="signature-line"></div>
+                    <div>Fecha: <span contenteditable="true">20/10/2025</span></div>
+                </div>
+                
+                <div class="signature-box">
+                    <div><strong>Firma del Supervisor</strong></div>
+                    <div class="signature-line"></div>
+                    <div>Fecha: <span contenteditable="true">20/10/2025</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="footer">
+            <p>Formato FO-LC-18 | Versión 1.0 | Registro Histórico - Banco de Células</p>
+            <p>El contenido de este documento es propiedad de "Xelle Scientific", S.A.P.I., de C. V., y está protegido por los derechos de autor, por lo que está prohibida su reproducción total o parcial.</p>
+            <p>Página 1 de 1</p>
+        </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <button class="action-btn btn-print" onclick="window.print()">
+            🖨️ Imprimir
+        </button>
+        <button class="action-btn btn-pdf" onclick="saveAsPDF()">
+            📄 Guardar PDF
+        </button>
+        <button class="action-btn btn-clear" onclick="clearForm()">
+            🗑️ Limpiar
+        </button>
+        <button class="action-btn btn-add" onclick="addRow()">
+            ➕ Agregar Fila
+        </button>
+    </div>
+
+    <script>
+        function saveAsPDF() {
+            alert('Para guardar como PDF, use la función de impresión y seleccione "Guardar como PDF" en las opciones de impresión.');
+            window.print();
+        }
+        
+        function clearForm() {
+            if (confirm('¿Está seguro de que desea limpiar todos los campos?')) {
+                document.querySelectorAll('[contenteditable="true"]').forEach(field => {
+                    field.textContent = '';
+                });
+                document.querySelector('.registry-field').textContent = 'HIS-BC-001';
+            }
+        }
+        
+        function addRow() {
+            const table = document.querySelector('.inventory-table tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+            `;
+            table.appendChild(newRow);
+            applyEditableStyles(newRow);
+        }
+        
+        function applyEditableStyles(element) {
+            element.querySelectorAll('[contenteditable="true"]').forEach(field => {
+                field.addEventListener('focus', function() {
+                    this.style.backgroundColor = '#f0f8ff';
+                    this.style.borderBottom = '2px solid #3498db';
+                    this.style.borderRadius = '3px 3px 0 0';
+                });
+                field.addEventListener('blur', function() {
+                    this.style.backgroundColor = 'transparent';
+                    this.style.borderBottom = '1px solid #ccc';
+                    this.style.borderRadius = '0';
+                });
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            applyEditableStyles(document);
+        });
+        
+        window.addEventListener('beforeprint', function() {
+            document.querySelector('.action-buttons').style.display = 'none';
+        });
+        
+        window.addEventListener('afterprint', function() {
+            document.querySelector('.action-buttons').style.display = 'flex';
+        });
+    </script>
+</body>
+</html>

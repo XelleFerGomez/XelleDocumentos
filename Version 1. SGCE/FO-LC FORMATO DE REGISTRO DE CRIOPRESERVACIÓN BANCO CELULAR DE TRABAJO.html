@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FO-LC-17 - Nuevo Registro de Criopreservación</title>
+    <style>
+        /* Estilos para simular un documento Word/PDF */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Calibri', 'Arial', sans-serif;
+        }
+
+        body {
+            background: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .document {
+            width: 21cm;
+            min-height: 29.7cm;
+            background: white;
+            padding: 2cm;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* Encabezado superior con logo y número de registro */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo-container {
+            width: 30%;
+        }
+
+        .logo-placeholder {
+            width: 150px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+        }
+
+        .logo-text {
+            font-size: 10pt;
+            color: #666;
+            text-align: center;
+        }
+
+        .logo-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .registry-number {
+            width: 30%;
+            text-align: right;
+        }
+
+        .registry-field {
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            font-size: 11pt;
+            text-align: center;
+            background: #f9f9f9;
+            margin-top: 5px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px double #2c3e50;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 20pt;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 12pt;
+            color: #666;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            background: #2c3e50;
+            color: white;
+            padding: 8px 15px;
+            font-size: 14pt;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-radius: 3px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 11pt;
+            color: #2c3e50;
+        }
+
+        .field {
+            border-bottom: 1px solid #ccc;
+            padding: 8px 5px;
+            min-height: 35px;
+            font-size: 11pt;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+
+        .checkbox-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .checkbox-options-column {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+        }
+
+        .signature-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #2c3e50;
+        }
+
+        .signature-box {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #2c3e50;
+            height: 60px;
+            margin: 15px 0;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 1cm;
+            left: 2cm;
+            right: 2cm;
+            text-align: center;
+            font-size: 9pt;
+            color: #666;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .instructions {
+            font-size: 9pt;
+            color: #666;
+            font-style: italic;
+            margin-top: 3px;
+        }
+
+        .examples {
+            font-size: 9pt;
+            color: #7f8c8d;
+            margin-top: 3px;
+            padding-left: 10px;
+            border-left: 2px solid #bdc3c7;
+        }
+
+        /* Botones de acción - SOLO VISIBLES EN PANTALLA */
+        .action-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .action-btn {
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-print {
+            background: #2c3e50;
+        }
+
+        .btn-pdf {
+            background: #e74c3c;
+        }
+
+        .btn-clear {
+            background: #95a5a6;
+        }
+
+        .btn-save {
+            background: #27ae60;
+        }
+
+        /* Estilos para impresión - OCULTAR BOTONES Y ELEMENTOS NO DESEADOS */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .document {
+                width: 100%;
+                height: 100%;
+                box-shadow: none;
+                padding: 1.5cm;
+                margin: 0;
+            }
+
+            /* Ocultar completamente los botones de acción */
+            .action-buttons {
+                display: none !important;
+            }
+
+            /* Ocultar cualquier ruta o URL que pueda aparecer */
+            @page {
+                margin: 0.5cm;
+                size: A4;
+
+                /* Eliminar encabezados y pies de página del navegador */
+                @top-left {
+                    content: '';
+                }
+
+                @top-center {
+                    content: '';
+                }
+
+                @top-right {
+                    content: '';
+                }
+
+                @bottom-left {
+                    content: '';
+                }
+
+                @bottom-center {
+                    content: '';
+                }
+
+                @bottom-right {
+                    content: '';
+                }
+            }
+
+            /* Asegurar que no se muestren URLs en los enlaces */
+            a[href]:after {
+                content: none !important;
+            }
+
+            /* Evitar que se muestre la ruta del documento */
+            .document:after {
+                content: none !important;
+            }
+        }
+
+        /* Estilos para evitar que aparezca la ruta en navegadores */
+        @media screen {
+
+            /* Ocultar cualquier posible ruta que muestre el navegador */
+            .document::before,
+            .document::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="document">
+        <!-- Encabezado superior con logo y número de registro -->
+        <div class="top-header">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <!-- Reemplaza con tu imagen real -->
+                    <img class="logo-image" src="XelleScientific.png" alt="Logo XelleScientific">
+                </div>
+            </div>
+
+            <div class="registry-number">
+                <label class="required">No. Registro</label>
+                <div class="registry-field" contenteditable="true" id="registry-number">FO-LC-17 001</div>
+            </div>
+        </div>
+
+        <!-- Encabezado principal -->
+        <div class="header">
+            <h1>FORMATO DE REGISTRO DE CRIOPRESERVACIÓN BANCO CELULAR MAESTRO</h1>
+            <p>Banco de Células - Control y Trazabilidad de Muestras</p>
+            <p><strong>Código:</strong> FO-LC-17 | <strong>Versión:</strong> 1.0 | <strong>Página 1 de 1</strong></p>
+        </div>
+
+        <!-- Sección 1: Información de Identificación -->
+        <div class="section">
+            <div class="section-title">1. INFORMACIÓN DE IDENTIFICACIÓN</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="required">Código de Muestra</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="instructions">Ej: CEL-2024-001</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Fecha de Congelación</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Línea Celular / Tipo Celular</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="instructions">Ej: HeLa, fibroblastos, células madre mesenquimales, etc.</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Número de Pase</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="instructions">Número de pases subcultivados</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Materia prima asociada</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+                <div class="form-group">
+                    <label class="required">Fecha de procesamiento</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+                <div class="form-group">
+                    <label class="required">Hora de procesamiento</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Sección 2: Información Adicional -->
+        <div class="section">
+            <div class="section-title">2. CONDICIONES DE RECEPCIÓN</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="required">Peso</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Morfología</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Descripción del estado de la placenta al recibir</div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Evaluación de recepción</label>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Calcificaciones – Presente</label>
+                            <div class="yesno-group">
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Calcificaciones_si" checked>
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">Sí</span>
+                                </label>
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Calcificaciones_no">
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">No</span>
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Hidratado</label>
+                            <div class="yesno-group">
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Hidratado_si" checked>
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">Sí</span>
+                                </label>
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Hidratado_no">
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">No</span>
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Con cordón – Presente</label>
+                            <div class="yesno-group">
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Con_cordon_si" checked>
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">Sí</span>
+                                </label>
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Con_cordon_no">
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">No</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fibrosis – Presente</label>
+                            <div class="yesno-group">
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Fibrosis_si" checked>
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">Sí</span>
+                                </label>
+                                <label class="checkbox-square">
+                                    <input type="checkbox" id="Fibrosis_no">
+                                    <span class="checkmark"></span>
+                                    <span style="font-weight: normal;">No</span>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+
+                        <div style="margin-top: 10px;">
+                            <strong>Resultados Detallados:</strong><br>
+                            <div contenteditable="true"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Observaciones</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Consideraciones especiales para descongelación, Recomendaciones de uso,
+                        Historial de la línea celular</div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Sección 3: Información Adicional -->
+        <div class="section">
+            <div class="section-title">3. INFORMACIÓN ADICIONAL</div>
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label class="required">Origen de la Muestra</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Donante interno, Proveedor externo, Colaboración institucional,
+                        Aislamiento primario</div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Características Especiales</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Marcada con fluorocromo, Modificación genética, Expresión de proteína
+                        recombinante, Línea certificada</div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Pruebas de Control de Calidad Realizadas</label>
+                    <div class="field">
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Micoplasma - Negativo
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Esterilidad - Aprobado
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Viabilidad - %
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <strong>Resultados Detallados:</strong><br>
+                            <div contenteditable="true"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Observaciones</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Consideraciones especiales para descongelación, Recomendaciones de uso,
+                        Historial de la línea celular</div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Sección 4: Datos de Criopreservación -->
+        <div class="section">
+            <div class="section-title">4. DATOS DE CRIOPRESERVACIÓN</div>
+            <div class="form-grid">
+                <!-- Campo: Tipo de Banco Celular - AHORA CON CHECKBOX -->
+                <div class="form-group full-width">
+                    <label class="required">Tipo de Banco Celular</label>
+                    <div class="checkbox-options">
+                        <div class="checkbox-options-column">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="banco_trabajo" name="tipo_banco" value="trabajo">
+                                <label for="banco_trabajo" style="display: inline; font-weight: normal;">Banco Celular
+                                    de Trabajo</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="banco_maestro" name="tipo_banco" value="maestro">
+                                <label for="banco_maestro" style="display: inline; font-weight: normal;">Banco Celular
+                                    Maestro</label>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="banco_produccion" name="tipo_banco" value="produccion">
+                                <label for="banco_produccion" style="display: inline; font-weight: normal;">Banco de
+                                    Producción</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="instructions">Seleccione uno o más tipos de banco según corresponda</div>
+                </div>
+
+                <!-- Campo: Tipo de Vial - MANUAL -->
+                <div class="form-group">
+                    <label class="required">Tipo de Vial/Contenedor</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Vial fase líquida, Vial fase gaseosa, Tubo cónico 15ml, Tubo cónico 50ml,
+                        Criovial 1.8 ml, Criovial 2.0 ml, Criovial 4.5 ml, Ampolla de vidrio</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Cantidad de Crioviales</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Volumen por Criovial (mL)</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Medio de Criopreservación</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Medio Específico</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Medio de criopreservación comercial, Medio libre de suero, Medio
+                        específico para el tipo celular</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Concentración Celular (células/mL)</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Viabilidad Pre-congelación (%)</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 5: Condiciones de Almacenamiento -->
+        <div class="section">
+            <div class="section-title">5. CONDICIONES DE ALMACENAMIENTO</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="required">Nivel de Almacenamiento</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Tanque A, Rack 3, Nivel 2, Caja Roja</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Canastilla / Posición</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: A-12, C-08, Canastilla Verde posición 5</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Temperatura de Almacenamiento (°C)</label>
+                    <div class="field" contenteditable="true"></div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Condiciones Especiales de Almacenamiento</label>
+                    <div class="field" contenteditable="true"></div>
+                    <div class="examples">Ej: Fase líquida, Fase vapor, Congelador -80°C, Ultra congelador -150°C</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verificaciones -->
+        <div class="section">
+            <div class="section-title">6. VERIFICACIONES FINALES</div>
+            <table class="data-table">
+                <tr>
+                    <td class="field">
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Todos los campos requeridos completados
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Código de muestra verificado
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Ubicación en tanque confirmada
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Registro en base de datos actualizado
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form-group full-width">
+                <label>Resultados química sanguínea</label>
+                <div class="field" contenteditable="true"></div>
+                <div class="examples">Ej: *******************</div>
+            </div>
+             <div class="form-group full-width">
+                <label>Resultados biometría hemática</label>
+                <div class="field" contenteditable="true"></div>
+                <div class="examples">Ej: Linfocitos, leucocitos, eritrocitos, hemoglobina, hemoglobina crepuscular, etc</div>
+            </div>
+            <div class="form-group full-width">
+                    <label>Pruebas de Control de Calidad para liberar</label>
+                    <div class="field">
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Hepatitis B - Negativo
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> VIH - Negativo
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Hepatitis C - Negativo
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> Sífilis - Negativo
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox"> CMV - Negativo
+                        </div>
+                         <div class="checkbox-group">
+                            <input type="checkbox"> Toxoplasma gondii – Negativo
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <strong>Resultados Detallados:</strong><br>
+                            <div contenteditable="true"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Sección 7: Datos del Operador -->
+        <div class="section">
+            <div class="section-title">7. DATOS DEL OPERADOR</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="required">Nombre del Operador</label>
+                    <br>
+                    <div class="field" contenteditable="true"></div>
+                    <br>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Nombre del Supervisor</label>
+                    <br>
+                    <div class="field" contenteditable="true"></div>
+                    <br>
+                </div>
+            </div>
+
+            <div class="signature-area">
+                <div class="signature-box">
+                    <div><strong>Firma del Operador</strong></div>
+                    <div class="signature-line"></div>
+                    <div>Fecha: <span contenteditable="true"></span></div>
+                </div>
+
+                <div class="signature-box">
+                    <div><strong>Firma del Supervisor</strong></div>
+                    <div class="signature-line"></div>
+                    <div>Fecha: <span contenteditable="true"></span></div>
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+        <!-- Pie de página -->
+        <div class="footer">
+            <p>Formato FO-LC-17 | Versión 1.0 | Banco de Células</p>
+            <p>El contenido de este documento es propiedad de "Xelle Scientific", S.A.P.I., de C. V., y está protegido
+                por los derechos de autor, por lo que está prohibida su reproducción total o parcial.</p>
+            <p>Página 1 de 1</p>
+        </div>
+    </div>
+
+    <!-- Botones de acción - SOLO VISIBLES EN PANTALLA -->
+    <div class="action-buttons">
+        <button class="action-btn btn-print" onclick="window.print()">
+            🖨️ Imprimir
+        </button>
+        <button class="action-btn btn-pdf" onclick="saveAsPDF()">
+            📄 Guardar PDF
+        </button>
+        <button class="action-btn btn-clear" onclick="clearForm()">
+            🗑️ Limpiar
+        </button>
+        <button class="action-btn btn-save" onclick="saveForm()">
+            💾 Guardar
+        </button>
+    </div>
+
+    <script>
+        // Generar número de registro secuencial
+        function generateRegistryNumber() {
+            let counter = localStorage.getItem('fo-lc-17-counter');
+            if (!counter) {
+                counter = 1;
+            } else {
+                counter = parseInt(counter) + 1;
+            }
+            localStorage.setItem('fo-lc-17-counter', counter);
+            return `FO-LC-17 ${counter.toString().padStart(3, '0')}`;
+        }
+
+        // Asignar número de registro al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            const registryField = document.getElementById('registry-number');
+            if (!registryField.textContent.trim()) {
+                registryField.textContent = generateRegistryNumber();
+            }
+
+            // Aplicar estilos a campos editables
+            document.querySelectorAll('[contenteditable="true"]').forEach(field => {
+                field.addEventListener('focus', function () {
+                    this.style.backgroundColor = '#f0f8ff';
+                    this.style.borderBottom = '2px solid #3498db';
+                    this.style.borderRadius = '3px 3px 0 0';
+                });
+                field.addEventListener('blur', function () {
+                    this.style.backgroundColor = 'transparent';
+                    this.style.borderBottom = '1px solid #ccc';
+                    this.style.borderRadius = '0';
+                });
+            });
+        });
+
+        function saveAsPDF() {
+            alert('Para guardar como PDF, use la función de impresión y seleccione "Guardar como PDF" en las opciones de impresión.');
+            window.print();
+        }
+
+        function clearForm() {
+            if (confirm('¿Está seguro de que desea limpiar todos los campos?')) {
+                document.querySelectorAll('[contenteditable="true"]').forEach(field => {
+                    field.textContent = '';
+                });
+
+                // Desmarcar checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                // Generar nuevo número de registro
+                document.getElementById('registry-number').textContent = generateRegistryNumber();
+            }
+        }
+
+        function saveForm() {
+            // En un sistema real, aquí se enviarían los datos a una base de datos
+            alert('Registro guardado correctamente. En un sistema real, los datos se enviarían a la base de datos.');
+
+            // Guardar en localStorage para simular base de datos
+            const formData = {
+                registryNumber: document.getElementById('registry-number').textContent,
+                sampleCode: document.querySelector('.field[contenteditable="true"]:nth-child(1)').textContent,
+                freezeDate: document.querySelector('.field[contenteditable="true"]:nth-child(2)').textContent,
+                // ... otros campos
+            };
+
+            localStorage.setItem('fo-lc-17-' + formData.registryNumber, JSON.stringify(formData));
+
+            // Redirigir al dashboard
+            window.opener ? window.close() : window.location.href = 'index.html';
+        }
+
+        // Prevenir que aparezcan rutas en algunos navegadores
+        window.addEventListener('beforeprint', function () {
+            document.querySelector('.action-buttons').style.display = 'none';
+        });
+
+        window.addEventListener('afterprint', function () {
+            document.querySelector('.action-buttons').style.display = 'flex';
+        });
+    </script>
+</body>
+
+</html>

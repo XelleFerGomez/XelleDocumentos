@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Células Dosificadas</title>
+    <link rel="stylesheet" href="css_Dosificacion.css"> 
+    <script src="javascript_Dosificacion.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>REGISTRO DE CÉLULAS DOSIFICADAS</h1>
+        </div>
+
+        <div class="metadata">
+            <div>
+                <label for="week-start">Semana del:</label>
+                <input type="date" id="week-start" onchange="updateDayDates()">
+            </div>
+            <div>
+                <label for="week-end">al:</label>
+                <input type="date" id="week-end" readonly>
+            </div>
+            <div>
+                <label for="responsible">Responsable:</label>
+                <input type="text" id="responsible" placeholder="Nombre del responsable">
+            </div>
+            <div>
+                <label for="cell-line">Línea Celular:</label>
+                <input type="text" id="cell-line" value="TPL27" placeholder="Ej: TPL27">
+            </div>
+        </div>
+
+        <div class="global-controls no-print">
+            <button class="btn btn-success" onclick="saveAllData()">Guardar Todo</button>
+            <button class="btn btn-primary" onclick="printAll()">Imprimir Todo</button>
+            <button class="btn btn-info" onclick="generateWeeklyReport()">Reporte Semanal PDF</button>
+            <button class="btn btn-danger" onclick="clearAllData()">Limpiar Formato</button>
+        </div>
+
+        <!-- Lunes -->
+        <div class="day-section" id="monday-section">
+            <div class="day-title" id="monday-title">
+                <span>
+                    <span class="expand-icon">▶</span>
+                    LUNES - <span id="monday-date"></span>
+                </span>
+                <div class="day-controls">
+                    <button class="btn btn-success" onclick="saveDay('monday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('monday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('monday')">Reporte Diario</button>
+                    <button class="btn btn-danger" onclick="clearDayData('monday')">Limpiar Día</button>
+                </div>
+            </div>
+            
+            <div class="day-content" id="monday-content">
+                <!-- Recipientes en cultivo -->
+                <div class="section">
+                    <div class="section-title">
+                        RECIPIENTES EN CULTIVO
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addRecipientRow('monday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addBankRow('monday')">Banco Celular</button>
+                        </div>
+                    </div>
+                    <table id="monday-recipients">
+                        <thead>
+                            <tr>
+                                <th>Línea</th>
+                                <th>F.I.</th>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="7">Total de Recipientes Activos:</td>
+                                <td id="monday-recipients-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Cosecha del día -->
+                <div class="section">
+                    <div class="section-title">
+                        COSECHA DEL DÍA
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addHarvestRow('monday')">Agregar</button>
+                        </div>
+                    </div>
+                    <table id="monday-harvest">
+                        <thead>
+                            <tr>
+                                <th>Código Recipiente</th>
+                                <th>Células Obtenidas</th>
+                                <th>Viabilidad (%)</th>
+                                <th>Destino</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">Total de Células Cosechadas:</td>
+                                <td id="monday-harvest-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Dosis preparadas -->
+                <div class="section">
+                    <div class="section-title">
+                        DOSIS PREPARADAS
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addDoseRow('monday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addExternalDoseRow('monday')">Externa</button>
+                        </div>
+                    </div>
+                    <table id="monday-doses">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Presentación</th>
+                                <th>Cantidad</th>
+                                <th>Lote</th>
+                                <th>Células Utilizadas</th>
+                                <th>Volumen</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="8">Total de Células en Dosis:</td>
+                                <td id="monday-doses-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Inventario del día -->
+                <div class="section">
+                    <div class="section-title">INVENTARIO DEL DÍA</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Células Dosificadas</th>
+                                <th>Células en Refrigeración</th>
+                                <th>Células Criopreservadas</th>
+                                <th>Células Desechadas</th>
+                                <th>Total del Día</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Totales</td>
+                                <td id="monday-dosed">0</td>
+                                <td id="monday-refrigeration">0</td>
+                                <td id="monday-cryopreserved">0</td>
+                                <td id="monday-discarded">0</td>
+                                <td id="monday-total-day">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="inventory-notes">
+                        <label>Observaciones:</label>
+                        <input type="text" class="inventory-notes" data-day="monday" data-type="general" placeholder="Observaciones generales del día">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Martes -->
+        <div class="day-section" id="tuesday-section">
+            <div class="day-title" id="tuesday-title">
+                <span>
+                    <span class="expand-icon">▶</span>
+                    MARTES - <span id="tuesday-date"></span>
+                </span>
+                <div class="day-controls">
+                    <button class="btn btn-success" onclick="saveDay('tuesday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('tuesday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('tuesday')">Reporte Diario</button>
+                    <button class="btn btn-danger" onclick="clearDayData('tuesday')">Limpiar Día</button>
+                </div>
+            </div>
+            
+            <div class="day-content" id="tuesday-content">
+                <!-- Recipientes en cultivo -->
+                <div class="section">
+                    <div class="section-title">
+                        RECIPIENTES EN CULTIVO
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addRecipientRow('tuesday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addBankRow('tuesday')">Banco Celular</button>
+                        </div>
+                    </div>
+                    <table id="tuesday-recipients">
+                        <thead>
+                            <tr>
+                                <th>Línea</th>
+                                <th>F.I.</th>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="7">Total de Recipientes Activos:</td>
+                                <td id="tuesday-recipients-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Cosecha del día -->
+                <div class="section">
+                    <div class="section-title">
+                        COSECHA DEL DÍA
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addHarvestRow('tuesday')">Agregar</button>
+                        </div>
+                    </div>
+                    <table id="tuesday-harvest">
+                        <thead>
+                            <tr>
+                                <th>Código Recipiente</th>
+                                <th>Células Obtenidas</th>
+                                <th>Viabilidad (%)</th>
+                                <th>Destino</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">Total de Células Cosechadas:</td>
+                                <td id="tuesday-harvest-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Dosis preparadas -->
+                <div class="section">
+                    <div class="section-title">
+                        DOSIS PREPARADAS
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addDoseRow('tuesday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addExternalDoseRow('tuesday')">Externa</button>
+                        </div>
+                    </div>
+                    <table id="tuesday-doses">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Presentación</th>
+                                <th>Cantidad</th>
+                                <th>Lote</th>
+                                <th>Células Utilizadas</th>
+                                <th>Volumen</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="8">Total de Células en Dosis:</td>
+                                <td id="tuesday-doses-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Inventario del día -->
+                <div class="section">
+                    <div class="section-title">INVENTARIO DEL DÍA</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Células Dosificadas</th>
+                                <th>Células en Refrigeración</th>
+                                <th>Células Criopreservadas</th>
+                                <th>Células Desechadas</th>
+                                <th>Total del Día</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Totales</td>
+                                <td id="tuesday-dosed">0</td>
+                                <td id="tuesday-refrigeration">0</td>
+                                <td id="tuesday-cryopreserved">0</td>
+                                <td id="tuesday-discarded">0</td>
+                                <td id="tuesday-total-day">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="inventory-notes">
+                        <label>Observaciones:</label>
+                        <input type="text" class="inventory-notes" data-day="tuesday" data-type="general" placeholder="Observaciones generales del día">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Miércoles -->
+        <div class="day-section" id="wednesday-section">
+            <div class="day-title" id="wednesday-title">
+                <span>
+                    <span class="expand-icon">▶</span>
+                    MIÉRCOLES - <span id="wednesday-date"></span>
+                </span>
+                <div class="day-controls">
+                    <button class="btn btn-success" onclick="saveDay('wednesday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('wednesday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('wednesday')">Reporte Diario</button>
+                    <button class="btn btn-danger" onclick="clearDayData('wednesday')">Limpiar Día</button>
+                </div>
+            </div>
+            
+            <div class="day-content" id="wednesday-content">
+                <!-- Recipientes en cultivo -->
+                <div class="section">
+                    <div class="section-title">
+                        RECIPIENTES EN CULTIVO
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addRecipientRow('wednesday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addBankRow('wednesday')">Banco Celular</button>
+                        </div>
+                    </div>
+                    <table id="wednesday-recipients">
+                        <thead>
+                            <tr>
+                                <th>Línea</th>
+                                <th>F.I.</th>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="7">Total de Recipientes Activos:</td>
+                                <td id="wednesday-recipients-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Cosecha del día -->
+                <div class="section">
+                    <div class="section-title">
+                        COSECHA DEL DÍA
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addHarvestRow('wednesday')">Agregar</button>
+                        </div>
+                    </div>
+                    <table id="wednesday-harvest">
+                        <thead>
+                            <tr>
+                                <th>Código Recipiente</th>
+                                <th>Células Obtenidas</th>
+                                <th>Viabilidad (%)</th>
+                                <th>Destino</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">Total de Células Cosechadas:</td>
+                                <td id="wednesday-harvest-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Dosis preparadas -->
+                <div class="section">
+                    <div class="section-title">
+                        DOSIS PREPARADAS
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addDoseRow('wednesday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addExternalDoseRow('wednesday')">Externa</button>
+                        </div>
+                    </div>
+                    <table id="wednesday-doses">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Presentación</th>
+                                <th>Cantidad</th>
+                                <th>Lote</th>
+                                <th>Células Utilizadas</th>
+                                <th>Volumen</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="8">Total de Células en Dosis:</td>
+                                <td id="wednesday-doses-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Inventario del día -->
+                <div class="section">
+                    <div class="section-title">INVENTARIO DEL DÍA</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Células Dosificadas</th>
+                                <th>Células en Refrigeración</th>
+                                <th>Células Criopreservadas</th>
+                                <th>Células Desechadas</th>
+                                <th>Total del Día</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Totales</td>
+                                <td id="wednesday-dosed">0</td>
+                                <td id="wednesday-refrigeration">0</td>
+                                <td id="wednesday-cryopreserved">0</td>
+                                <td id="wednesday-discarded">0</td>
+                                <td id="wednesday-total-day">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="inventory-notes">
+                        <label>Observaciones:</label>
+                        <input type="text" class="inventory-notes" data-day="wednesday" data-type="general" placeholder="Observaciones generales del día">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jueves -->
+        <div class="day-section" id="thursday-section">
+            <div class="day-title" id="thursday-title">
+                <span>
+                    <span class="expand-icon">▶</span>
+                    JUEVES - <span id="thursday-date"></span>
+                </span>
+                <div class="day-controls">
+                    <button class="btn btn-success" onclick="saveDay('thursday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('thursday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('thursday')">Reporte Diario</button>
+                    <button class="btn btn-danger" onclick="clearDayData('thursday')">Limpiar Día</button>
+                </div>
+            </div>
+            
+            <div class="day-content" id="thursday-content">
+                <!-- Recipientes en cultivo -->
+                <div class="section">
+                    <div class="section-title">
+                        RECIPIENTES EN CULTIVO
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addRecipientRow('thursday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addBankRow('thursday')">Banco Celular</button>
+                        </div>
+                    </div>
+                    <table id="thursday-recipients">
+                        <thead>
+                            <tr>
+                                <th>Línea</th>
+                                <th>F.I.</th>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="7">Total de Recipientes Activos:</td>
+                                <td id="thursday-recipients-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Cosecha del día -->
+                <div class="section">
+                    <div class="section-title">
+                        COSECHA DEL DÍA
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addHarvestRow('thursday')">Agregar</button>
+                        </div>
+                    </div>
+                    <table id="thursday-harvest">
+                        <thead>
+                            <tr>
+                                <th>Código Recipiente</th>
+                                <th>Células Obtenidas</th>
+                                <th>Viabilidad (%)</th>
+                                <th>Destino</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">Total de Células Cosechadas:</td>
+                                <td id="thursday-harvest-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Dosis preparadas -->
+                <div class="section">
+                    <div class="section-title">
+                        DOSIS PREPARADAS
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addDoseRow('thursday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addExternalDoseRow('thursday')">Externa</button>
+                        </div>
+                    </div>
+                    <table id="thursday-doses">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Presentación</th>
+                                <th>Cantidad</th>
+                                <th>Lote</th>
+                                <th>Células Utilizadas</th>
+                                <th>Volumen</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="8">Total de Células en Dosis:</td>
+                                <td id="thursday-doses-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Inventario del día -->
+                <div class="section">
+                    <div class="section-title">INVENTARIO DEL DÍA</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Células Dosificadas</th>
+                                <th>Células en Refrigeración</th>
+                                <th>Células Criopreservadas</th>
+                                <th>Células Desechadas</th>
+                                <th>Total del Día</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Totales</td>
+                                <td id="thursday-dosed">0</td>
+                                <td id="thursday-refrigeration">0</td>
+                                <td id="thursday-cryopreserved">0</td>
+                                <td id="thursday-discarded">0</td>
+                                <td id="thursday-total-day">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="inventory-notes">
+                        <label>Observaciones:</label>
+                        <input type="text" class="inventory-notes" data-day="thursday" data-type="general" placeholder="Observaciones generales del día">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Viernes -->
+        <div class="day-section" id="friday-section">
+            <div class="day-title" id="friday-title">
+                <span>
+                    <span class="expand-icon">▶</span>
+                    VIERNES - <span id="friday-date"></span>
+                </span>
+                <div class="day-controls">
+                    <button class="btn btn-success" onclick="saveDay('friday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('friday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('friday')">Reporte Diario</button>
+                    <button class="btn btn-danger" onclick="clearDayData('friday')">Limpiar Día</button>
+                </div>
+            </div>
+            
+            <div class="day-content" id="friday-content">
+                <!-- Recipientes en cultivo -->
+                <div class="section">
+                    <div class="section-title">
+                        RECIPIENTES EN CULTIVO
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addRecipientRow('friday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addBankRow('friday')">Banco Celular</button>
+                        </div>
+                    </div>
+                    <table id="friday-recipients">
+                        <thead>
+                            <tr>
+                                <th>Línea</th>
+                                <th>F.I.</th>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="7">Total de Recipientes Activos:</td>
+                                <td id="friday-recipients-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Cosecha del día -->
+                <div class="section">
+                    <div class="section-title">
+                        COSECHA DEL DÍA
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addHarvestRow('friday')">Agregar</button>
+                        </div>
+                    </div>
+                    <table id="friday-harvest">
+                        <thead>
+                            <tr>
+                                <th>Código Recipiente</th>
+                                <th>Células Obtenidas</th>
+                                <th>Viabilidad (%)</th>
+                                <th>Destino</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">Total de Células Cosechadas:</td>
+                                <td id="friday-harvest-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Dosis preparadas -->
+                <div class="section">
+                    <div class="section-title">
+                        DOSIS PREPARADAS
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addDoseRow('friday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addExternalDoseRow('friday')">Externa</button>
+                        </div>
+                    </div>
+                    <table id="friday-doses">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Presentación</th>
+                                <th>Cantidad</th>
+                                <th>Lote</th>
+                                <th>Células Utilizadas</th>
+                                <th>Volumen</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="8">Total de Células en Dosis:</td>
+                                <td id="friday-doses-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Inventario del día -->
+                <div class="section">
+                    <div class="section-title">INVENTARIO DEL DÍA</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Células Dosificadas</th>
+                                <th>Células en Refrigeración</th>
+                                <th>Células Criopreservadas</th>
+                                <th>Células Desechadas</th>
+                                <th>Total del Día</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Totales</td>
+                                <td id="friday-dosed">0</td>
+                                <td id="friday-refrigeration">0</td>
+                                <td id="friday-cryopreserved">0</td>
+                                <td id="friday-discarded">0</td>
+                                <td id="friday-total-day">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="inventory-notes">
+                        <label>Observaciones:</label>
+                        <input type="text" class="inventory-notes" data-day="friday" data-type="general" placeholder="Observaciones generales del día">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sábado -->
+        <div class="day-section" id="saturday-section">
+            <div class="day-title" id="saturday-title">
+                <span>
+                    <span class="expand-icon">▶</span>
+                    SÁBADO - <span id="saturday-date"></span>
+                </span>
+                <div class="day-controls">
+                    <button class="btn btn-success" onclick="saveDay('saturday')">Guardar</button>
+                    <button class="btn btn-primary" onclick="printDay('saturday')">Imprimir</button>
+                    <button class="btn btn-info" onclick="generateDailyReport('saturday')">Reporte Diario</button>
+                    <button class="btn btn-danger" onclick="clearDayData('saturday')">Limpiar Día</button>
+                </div>
+            </div>
+            
+            <div class="day-content" id="saturday-content">
+                <!-- Recipientes en cultivo -->
+                <div class="section">
+                    <div class="section-title">
+                        RECIPIENTES EN CULTIVO
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addRecipientRow('saturday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addBankRow('saturday')">Banco Celular</button>
+                        </div>
+                    </div>
+                    <table id="saturday-recipients">
+                        <thead>
+                            <tr>
+                                <th>Línea</th>
+                                <th>F.I.</th>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="7">Total de Recipientes Activos:</td>
+                                <td id="saturday-recipients-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Cosecha del día -->
+                <div class="section">
+                    <div class="section-title">
+                        COSECHA DEL DÍA
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addHarvestRow('saturday')">Agregar</button>
+                        </div>
+                    </div>
+                    <table id="saturday-harvest">
+                        <thead>
+                            <tr>
+                                <th>Código Recipiente</th>
+                                <th>Células Obtenidas</th>
+                                <th>Viabilidad (%)</th>
+                                <th>Destino</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">Total de Células Cosechadas:</td>
+                                <td id="saturday-harvest-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Dosis preparadas -->
+                <div class="section">
+                    <div class="section-title">
+                        DOSIS PREPARADAS
+                        <div class="section-controls no-print">
+                            <button class="btn btn-success" onclick="addDoseRow('saturday')">Agregar</button>
+                            <button class="btn btn-warning" onclick="addExternalDoseRow('saturday')">Externa</button>
+                        </div>
+                    </div>
+                    <table id="saturday-doses">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Presentación</th>
+                                <th>Cantidad</th>
+                                <th>Lote</th>
+                                <th>Células Utilizadas</th>
+                                <th>Volumen</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th class="no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se generan automáticamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="8">Total de Células en Dosis:</td>
+                                <td id="saturday-doses-total">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Inventario del día -->
+                <div class="section">
+                    <div class="section-title">INVENTARIO DEL DÍA</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Células Dosificadas</th>
+                                <th>Células en Refrigeración</th>
+                                <th>Células Criopreservadas</th>
+                                <th>Células Desechadas</th>
+                                <th>Total del Día</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Totales</td>
+                                <td id="saturday-dosed">0</td>
+                                <td id="saturday-refrigeration">0</td>
+                                <td id="saturday-cryopreserved">0</td>
+                                <td id="saturday-discarded">0</td>
+                                <td id="saturday-total-day">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="inventory-notes">
+                        <label>Observaciones:</label>
+                        <input type="text" class="inventory-notes" data-day="saturday" data-type="general" placeholder="Observaciones generales del día">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen Semanal -->
+        <div class="week-summary">
+            <div class="section-title">RESUMEN SEMANAL</div>
+            <div class="summary-controls no-print">
+                <button class="btn btn-primary" onclick="printWeek()">Imprimir Resumen</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Día</th>
+                        <th>Recipientes</th>
+                        <th>Cosechadas</th>
+                        <th>Dosificadas</th>
+                        <th>Refrigeradas</th>
+                        <th>Criopreservadas</th>
+                        <th>Desechadas</th>
+                        <th>Total Día</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lunes</td>
+                        <td id="week-monday-recipients">0</td>
+                        <td id="week-monday-harvest">0</td>
+                        <td id="week-monday-dosed">0</td>
+                        <td id="week-monday-refrigeration">0</td>
+                        <td id="week-monday-cryopreserved">0</td>
+                        <td id="week-monday-discarded">0</td>
+                        <td id="week-monday-total">0</td>
+                    </tr>
+                    <tr>
+                        <td>Martes</td>
+                        <td id="week-tuesday-recipients">0</td>
+                        <td id="week-tuesday-harvest">0</td>
+                        <td id="week-tuesday-dosed">0</td>
+                        <td id="week-tuesday-refrigeration">0</td>
+                        <td id="week-tuesday-cryopreserved">0</td>
+                        <td id="week-tuesday-discarded">0</td>
+                        <td id="week-tuesday-total">0</td>
+                    </tr>
+                    <tr>
+                        <td>Miércoles</td>
+                        <td id="week-wednesday-recipients">0</td>
+                        <td id="week-wednesday-harvest">0</td>
+                        <td id="week-wednesday-dosed">0</td>
+                        <td id="week-wednesday-refrigeration">0</td>
+                        <td id="week-wednesday-cryopreserved">0</td>
+                        <td id="week-wednesday-discarded">0</td>
+                        <td id="week-wednesday-total">0</td>
+                    </tr>
+                    <tr>
+                        <td>Jueves</td>
+                        <td id="week-thursday-recipients">0</td>
+                        <td id="week-thursday-harvest">0</td>
+                        <td id="week-thursday-dosed">0</td>
+                        <td id="week-thursday-refrigeration">0</td>
+                        <td id="week-thursday-cryopreserved">0</td>
+                        <td id="week-thursday-discarded">0</td>
+                        <td id="week-thursday-total">0</td>
+                    </tr>
+                    <tr>
+                        <td>Viernes</td>
+                        <td id="week-friday-recipients">0</td>
+                        <td id="week-friday-harvest">0</td>
+                        <td id="week-friday-dosed">0</td>
+                        <td id="week-friday-refrigeration">0</td>
+                        <td id="week-friday-cryopreserved">0</td>
+                        <td id="week-friday-discarded">0</td>
+                        <td id="week-friday-total">0</td>
+                    </tr>
+                    <tr>
+                        <td>Sábado</td>
+                        <td id="week-saturday-recipients">0</td>
+                        <td id="week-saturday-harvest">0</td>
+                        <td id="week-saturday-dosed">0</td>
+                        <td id="week-saturday-refrigeration">0</td>
+                        <td id="week-saturday-cryopreserved">0</td>
+                        <td id="week-saturday-discarded">0</td>
+                        <td id="week-saturday-total">0</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td>TOTAL SEMANA</td>
+                        <td id="week-total-recipients">0</td>
+                        <td id="week-total-harvest">0</td>
+                        <td id="week-total-dosed">0</td>
+                        <td id="week-total-refrigeration">0</td>
+                        <td id="week-total-cryopreserved">0</td>
+                        <td id="week-total-discarded">0</td>
+                        <td id="week-total-general">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="signature-area">
+            <div class="signature-box">
+                <p>Elaborado por:</p>
+                <p>_________________________</p>
+            </div>
+            <div class="signature-box">
+                <p>Revisado por:</p>
+                <p>_________________________</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Sistema de Gestión de Cosechas y Dosis - Versión 2.0</p>
+            <p>Documento controlado - No copiar sin autorización</p>
+        </div>
+    </div>
+
+    <script src="javascript cosecha dosificacion.js"></script>
+</body>
+</html>

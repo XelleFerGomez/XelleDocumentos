@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEGUIMIENTO DIARIO DE COSECHA CELULAR</title>
+    <link rel="stylesheet" href="css Control Flask.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header-top">
+            <div class="logo-container">
+                <img class="logo-image" src="XelleScientific.png" alt="Logo XelleScientific" style="max-height:60px;">
+            </div>
+            <div class="registry-number">
+                <label class="required">No. Registro FO-LC-20</label>
+                <div class="registry-field">001</div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>SEGUIMIENTO DIARIO DE COSECHA CELULAR</h1>
+            <div class="metadata">
+                <p><strong>Código:</strong> Clave: FO-OP-20 | <strong>Página 1 de 1</strong></p>
+            </div>
+        </div>
+
+        <div class="global-controls no-print">
+            <button class="btn btn-success" onclick="saveDay()">Guardar en BD</button>
+            <button class="btn btn-primary" onclick="window.print()">Imprimir Día</button>
+            <button class="btn btn-info" onclick="generatePDF()">Reporte PDF</button>
+            <button class="btn btn-danger" onclick="location.reload()">Limpiar</button>
+            <a href="Dashboard.html" class="btn btn-warning" target="_blank">Ir al Dashboard</a>
+        </div>
+
+        <div class="section">
+            <div class="section-title">1. INFORMACIÓN GENERAL</div>
+            <table>
+                <tr>
+                    <td width="20%"><strong>Fecha:</strong></td>
+                    <td width="30%"><input type="date" id="current-date"></td>
+                    <td width="20%"><strong>Responsable:</strong></td>
+                    <td width="30%"><input type="text" id="responsible" placeholder="Nombre completo"></td>
+                </tr>
+                <tr>
+                    <td><strong>Línea Celular:</strong></td>
+                    <td colspan="3"><input type="text" id="cell-line" value="TPL32"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="day-section">
+            <div class="day-title">
+                <span id="day-date-display"></span>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">Recipientes en Cultivo (Entradas)</div>
+                <div class="table-controls no-print">
+                    <button class="btn btn-primary" onclick="addRecipientRow()">+ Agregar Recipiente</button>
+                </div>
+                <table id="daily-recipients">
+                    <thead>
+                        <tr>
+                            <th>Línea</th><th>FI</th><th>#</th>
+                            <th>Código (Preliminar)</th>
+                            <th>Pasaje</th><th>Tipo</th><th>Estado</th>
+                            <th>Observaciones</th><th>Responsable</th>
+                            <th class="no-print">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr class="total-row"><td colspan="9">Total: <span id="recipients-count">0</span></td></tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Control de Cosecha (Salidas)</div>
+                <div class="table-controls no-print">
+                    <button class="btn btn-primary" onclick="addHarvestRow()">+ Registrar Cosecha</button>
+                </div>
+                <table id="daily-harvest">
+                    <thead>
+                        <tr>
+                            <th>Recipiente Origen</th>
+                            <th>Células Obtenidas</th>
+                            <th>Viabilidad (%)</th>
+                            <th>Destino</th>
+                            <th>Nuevo Estado</th>
+                            <th>Notas</th>
+                            <th class="no-print">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr class="total-row"><td colspan="6">Total Células: <span id="harvest-total">0</span></td></tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Resumen de Destinos</div>
+                <table id="daily-inventory">
+                    <thead><tr><th>Destino</th><th>Total Células</th></tr></thead>
+                    <tbody>
+                        <tr><td>Dosificadas</td><td id="total-dosed">0</td></tr>
+                        <tr><td>Refrigeración</td><td id="total-refrig">0</td></tr>
+                        <tr><td>Criopreservadas</td><td id="total-cryo">0</td></tr>
+                        <tr><td>Desechadas</td><td id="total-trash">0</td></tr>
+                        <tr class="total-row"><td>TOTAL DÍA</td><td id="total-day">0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="signature-area">
+                <div class="signature-box"><p>Realizó:<br><br>___________________________</p></div>
+                <div class="signature-box"><p>Revisó:<br><br>___________________________</p></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Formato FO-OP-20-C | Seguimiento de Cosecha | Xelle Scientific</p>
+        </div>
+    </div>
+    <script src="javascript Control Flask.js"></script>
+</body>
+</html>

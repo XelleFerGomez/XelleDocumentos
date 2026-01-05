@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Gestión de Bancos Celulares</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Calibri', 'Arial', sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-placeholder {
+            width: 150px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+        
+        .header-title {
+            margin-left: 20px;
+        }
+        
+        .header-title h1 {
+            font-size: 24px;
+            color: #2c3e50;
+        }
+        
+        .header-title p {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid #7f8c8d;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .card-code {
+            color: #2c3e50;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            background: #ecf0f1;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .card-description {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1a252f;
+        }
+        
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+        
+        /* Recent Activity */
+        .recent-activity {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .activity-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .activity-list {
+            list-style-type: none;
+        }
+        
+        .activity-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .activity-desc {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .activity-details {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .activity-date {
+            font-size: 14px;
+            color: #95a5a6;
+        }
+        
+        .activity-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            margin-right: 8px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px 0;
+            border-top: 1px solid #ecf0f1;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .stat-trabajo {
+            border-top: 4px solid #2ecc71;
+        }
+        
+        .stat-maestro {
+            border-top: 4px solid #3498db;
+        }
+        
+        .stat-produccion {
+            border-top: 4px solid #e67e22;
+        }
+        
+        .stat-total {
+            border-top: 4px solid #9b59b6;
+        }
+        
+        /* Banco Cards */
+        .bancos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .banco-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .banco-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .banco-trabajo {
+            border-top: 4px solid #2ecc71;
+        }
+        
+        .banco-maestro {
+            border-top: 4px solid #3498db;
+        }
+        
+        .banco-produccion {
+            border-top: 4px solid #e67e22;
+        }
+        
+        .banco-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        .banco-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .icon-trabajo {
+            background: #2ecc71;
+        }
+        
+        .icon-maestro {
+            background: #3498db;
+        }
+        
+        .icon-produccion {
+            background: #e67e22;
+        }
+        
+        .banco-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .banco-stat {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .banco-stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .banco-stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .header-title {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .cards-container, .bancos-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <!-- En un entorno real, aquí iría el logo -->
+                    <span style="color: #7f8c8d;">[Logo XelleScientific]</span>
+                </div>
+                <div class="header-title">
+                    <h1>Sistema de Gestión de Bancos Celulares</h1>
+                    <p>Control y Trazabilidad de Muestras</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Bancos Cards -->
+        <div class="bancos-container">
+            <div class="banco-card banco-trabajo">
+                <h3 class="banco-title">
+                    <span class="banco-icon icon-trabajo"></span>
+                    Banco de Trabajo
+                </h3>
+                <div class="banco-stats">
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">23</div>
+                        <div class="banco-stat-label">Viales Activos</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">2.3×10⁸</div>
+                        <div class="banco-stat-label">Células Totales</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">8</div>
+                        <div class="banco-stat-label">Líneas Celulares</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">95%</div>
+                        <div class="banco-stat-label">Viabilidad Promedio</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banco-card banco-maestro">
+                <h3 class="banco-title">
+                    <span class="banco-icon icon-maestro"></span>
+                    Banco Maestro
+                </h3>
+                <div class="banco-stats">
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">42</div>
+                        <div class="banco-stat-label">Viales Activos</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">4.2×10⁸</div>
+                        <div class="banco-stat-label">Células Totales</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">12</div>
+                        <div class="banco-stat-label">Líneas Celulares</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">97%</div>
+                        <div class="banco-stat-label">Viabilidad Promedio</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banco-card banco-produccion">
+                <h3 class="banco-title">
+                    <span class="banco-icon icon-produccion"></span>
+                    Banco de Producción
+                </h3>
+                <div class="banco-stats">
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">15</div>
+                        <div class="banco-stat-label">Viales Activos</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">1.5×10⁸</div>
+                        <div class="banco-stat-label">Células Totales</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">5</div>
+                        <div class="banco-stat-label">Líneas Celulares</div>
+                    </div>
+                    <div class="banco-stat">
+                        <div class="banco-stat-value">92%</div>
+                        <div class="banco-stat-label">Viabilidad Promedio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card stat-trabajo">
+                <div class="stat-value">23</div>
+                <div class="stat-label">Viales Activos - Trabajo</div>
+                <div class="stat-label">2.3×10⁸ células</div>
+            </div>
+            <div class="stat-card stat-maestro">
+                <div class="stat-value">42</div>
+                <div class="stat-label">Viales Activos - Maestro</div>
+                <div class="stat-label">4.2×10⁸ células</div>
+            </div>
+            <div class="stat-card stat-produccion">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Viales Activos - Producción</div>
+                <div class="stat-label">1.5×10⁸ células</div>
+            </div>
+            <div class="stat-card stat-total">
+                <div class="stat-value">80</div>
+                <div class="stat-label">Total Viales Activos</div>
+                <div class="stat-label">8.0×10⁸ células</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <h2 class="dashboard-title">Formatos de Registro Disponibles</h2>
+            
+            <div class="cards-container">
+                <!-- Card 1: Formato de Registro de Criopreservación -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-code">FO-LC-17</div>
+                        <div class="card-version">Versión 1.0</div>
+                    </div>
+                    <h3 class="card-title">Formato de Registro de Criopreservación</h3>
+                    <p class="card-description">
+                        Registro detallado para la criopreservación de muestras celulares en el banco de trabajo. 
+                        Incluye información de identificación, datos de criopreservación y condiciones de almacenamiento.
+                    </p>
+                    <div class="card-actions">
+                        <a href="FO-LC-17 FORMATO DE REGISTRO DE CRIOPRESERVACIÓN BANCO CELULAR DE TRABAJO.html" target="_blank" class="btn btn-primary">Nuevo Banco (Vacío)</a>
+                        <a href="Ejemplo FO-LC-17 FORMATO DE REGISTRO DE CRIOPRESERVACIÓN BANCO CELULAR DE TRABAJO.pdf" target="_blank" class="btn btn-secondary">Ejemplo con Registros</a>
+                    </div>
+                </div>
+                
+                <!-- Card 2: Registro Histórico -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-code">FO-LC-18</div>
+                        <div class="card-version">Versión 1.0</div>
+                    </div>
+                    <h3 class="card-title">Registro Histórico - Banco Celular</h3>
+                    <p class="card-description">
+                        Inventario maestro y trazabilidad de muestras en el banco celular de criopreservación. 
+                        Permite el seguimiento histórico de todas las muestras almacenadas.
+                    </p>
+                    <div class="card-actions">
+                        <a href="FO-LC-18 Registro Histórico - Banco Celular de Criopreservación.html" target="_blank" class="btn btn-primary">Nuevo Registro (Vacío)</a>
+                        <a href="Ejemplo FO-LC-18 Registro Histórico - Banco Celular de Criopreservación.pdf" target="_blank" class="btn btn-secondary">Ejemplo con Registros</a>
+                    </div>
+                </div>
+                
+                <!-- Card 3: Formato de Movimiento -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-code">FO-LC-19</div>
+                        <div class="card-version">Versión 1.0</div>
+                    </div>
+                    <h3 class="card-title">Formato de Movimiento en Banco Celular</h3>
+                    <p class="card-description">
+                        Registro individual de descongelaciones y movimientos de muestras en el banco celular. 
+                        Documenta la trazabilidad de cada muestra movida o descongelada.
+                    </p>
+                    <div class="card-actions">
+                        <a href="FO-LC-19 Formato de Movimiento en Banco Celular.html" target="_blank" class="btn btn-primary">Nuevo Movimiento (Vacío)</a>
+                        <a href="Ejemplo FO-LC-19 Formato de Movimiento en Banco Celular.pdf" target="_blank" class="btn btn-secondary">Ejemplo con Registros</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h3 class="activity-title">Registros Recientes</h3>
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-desc">
+                                <span class="activity-badge" style="background: #2ecc71;">Trabajo</span>
+                                Registro de Criopreservación - TPL29 251017
+                            </div>
+                            <div class="activity-details">Mesenquimales derivadas de la decidua</div>
+                        </div>
+                        <div class="activity-date">13/10/2025</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-desc">
+                                <span class="activity-badge" style="background: #3498db;">Maestro</span>
+                                Movimiento - TPL28 251016
+                            </div>
+                            <div class="activity-details">Descongelación para producción | 2 viales</div>
+                        </div>
+                        <div class="activity-date">15/10/2025</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-desc">
+                                <span class="activity-badge" style="background: #e67e22;">Producción</span>
+                                Actualización de Registro Histórico
+                            </div>
+                            <div class="activity-details">Adición de 3 nuevas muestras al inventario</div>
+                        </div>
+                        <div class="activity-date">14/10/2025</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-desc">
+                                <span class="activity-badge" style="background: #2ecc71;">Trabajo</span>
+                                Registro de Criopreservación - TPL27 251015
+                            </div>
+                            <div class="activity-details">Células mesenquimales de cordón umbilical</div>
+                        </div>
+                        <div class="activity-date">16/10/2025</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Sistema de Gestión de Bancos Celulares | Control y Trazabilidad</p>
+            <p>El contenido de este sistema es propiedad de "Xelle Scientific", S.A.P.I., de C. V., y está protegido por los derechos de autor.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Datos de ejemplo para las estadísticas
+        const statsData = {
+            trabajo: { viales: 23, celulas: '2.3×10⁸', lineas: 8, viabilidad: '95%' },
+            maestro: { viales: 42, celulas: '4.2×10⁸', lineas: 12, viabilidad: '97%' },
+            produccion: { viales: 15, celulas: '1.5×10⁸', lineas: 5, viabilidad: '92%' }
+        };
+
+        // Calcular totales
+        const totalViales = statsData.trabajo.viales + statsData.maestro.viales + statsData.produccion.viales;
+        const totalCelulas = '8.0×10⁸'; // Ejemplo simplificado
+
+        // Actualizar estadísticas en el DOM
+        document.querySelector('.stat-card.stat-trabajo .stat-value').textContent = statsData.trabajo.viales;
+        document.querySelector('.stat-card.stat-trabajo .stat-label:nth-child(3)').textContent = statsData.trabajo.celulas + ' células';
+        
+        document.querySelector('.stat-card.stat-maestro .stat-value').textContent = statsData.maestro.viales;
+        document.querySelector('.stat-card.stat-maestro .stat-label:nth-child(3)').textContent = statsData.maestro.celulas + ' células';
+        
+        document.querySelector('.stat-card.stat-produccion .stat-value').textContent = statsData.produccion.viales;
+        document.querySelector('.stat-card.stat-produccion .stat-label:nth-child(3)').textContent = statsData.produccion.celulas + ' células';
+        
+        document.querySelector('.stat-card.stat-total .stat-value').textContent = totalViales;
+        document.querySelector('.stat-card.stat-total .stat-label:nth-child(3)').textContent = totalCelulas + ' células';
+
+        // Actualizar tarjetas de bancos
+        document.querySelector('.banco-trabajo .banco-stat:nth-child(1) .banco-stat-value').textContent = statsData.trabajo.viales;
+        document.querySelector('.banco-trabajo .banco-stat:nth-child(2) .banco-stat-value').textContent = statsData.trabajo.celulas;
+        document.querySelector('.banco-trabajo .banco-stat:nth-child(3) .banco-stat-value').textContent = statsData.trabajo.lineas;
+        document.querySelector('.banco-trabajo .banco-stat:nth-child(4) .banco-stat-value').textContent = statsData.trabajo.viabilidad;
+        
+        document.querySelector('.banco-maestro .banco-stat:nth-child(1) .banco-stat-value').textContent = statsData.maestro.viales;
+        document.querySelector('.banco-maestro .banco-stat:nth-child(2) .banco-stat-value').textContent = statsData.maestro.celulas;
+        document.querySelector('.banco-maestro .banco-stat:nth-child(3) .banco-stat-value').textContent = statsData.maestro.lineas;
+        document.querySelector('.banco-maestro .banco-stat:nth-child(4) .banco-stat-value').textContent = statsData.maestro.viabilidad;
+        
+        document.querySelector('.banco-produccion .banco-stat:nth-child(1) .banco-stat-value').textContent = statsData.produccion.viales;
+        document.querySelector('.banco-produccion .banco-stat:nth-child(2) .banco-stat-value').textContent = statsData.produccion.celulas;
+        document.querySelector('.banco-produccion .banco-stat:nth-child(3) .banco-stat-value').textContent = statsData.produccion.lineas;
+        document.querySelector('.banco-produccion .banco-stat:nth-child(4) .banco-stat-value').textContent = statsData.produccion.viabilidad;
+
+        // Script para funcionalidades adicionales
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Dashboard del Sistema de Gestión de Bancos Celulares cargado correctamente");
+        });
+    </script>
+</body>
+</html>
