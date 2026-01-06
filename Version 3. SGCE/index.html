@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso - XELLE LIMS</title>
+    <link rel="stylesheet" href="lims-theme.css">
+    <link rel="shortcut icon" href="Xelle Icono.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="config-users.js"></script>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div style="margin-bottom: 20px;">
+                <img src="icono.svg" alt="Xelle Logo" style="height: 80px; width: auto; display: block; margin: 0 auto;">
+            </div>
+            
+            <h2 style="color: #1D1D1B; margin-bottom: 5px;">XELLE LIMS</h2>
+            <p style="color: #888; margin-bottom: 30px; font-size: 0.9em;">Sistema Modular Seguro</p>
+            
+            <form id="loginForm">
+                <div style="position: relative;">
+                    <i class="fas fa-user" style="position: absolute; left: 15px; top: 22px; color: #aaa;"></i>
+                    <input type="text" id="user" class="login-input" placeholder="Usuario" style="padding-left: 40px;" required>
+                </div>
+                <div style="position: relative;">
+                    <i class="fas fa-lock" style="position: absolute; left: 15px; top: 22px; color: #aaa;"></i>
+                    <input type="password" id="pass" class="login-input" placeholder="Contraseña" style="padding-left: 40px;" required>
+                </div>
+                
+                <button type="submit" class="btn-login">INICIAR SESIÓN</button>
+            </form>
+            <div id="errorMsg" style="color: #e74c3c; margin-top: 15px; display: none; font-weight: bold;">
+                <i class="fas fa-exclamation-triangle"></i> Credenciales inválidas
+            </div>
+        </div>
+    </div>
+
+    <script>
+        sessionStorage.clear();
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            const valid = AUTHORIZED_USERS.find(user => user.user === u && user.pass === p);
+
+            if (valid) {
+                sessionStorage.setItem('lims_user_role', valid.role);
+                sessionStorage.setItem('lims_user_name', valid.name);
+                window.location.href = 'dashboard.html';
+            } else {
+                const msg = document.getElementById('errorMsg');
+                msg.style.display = 'block';
+                document.querySelector('.login-box').animate([
+                    { transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, 
+                    { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }
+                ], { duration: 300 });
+            }
+        });
+    </script>
+</body>
+</html>
