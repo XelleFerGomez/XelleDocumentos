@@ -2,58 +2,118 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso - XELLE LIMS</title>
     <link rel="stylesheet" href="lims-theme.css">
-    <link rel="shortcut icon" href="Xelle Icono.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="config-users.js"></script>
+
+    <style>
+        body {
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-card {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .login-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .login-input {
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+        
+        .error-msg {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-box">
-            <div style="margin-bottom: 20px;">
-                <img src="icono.svg" alt="Xelle Logo" style="height: 80px; width: auto; display: block; margin: 0 auto;">
-            </div>
+
+    <div class="login-card">
+        <div class="login-brand">
+            <svg class="login-logo-svg" viewBox="10 10 80 80" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <style>.svg-logo-celula { fill: #2E9D82; }</style>
+                </defs>
+                <g>
+                    <circle class="svg-logo-celula" cx="25" cy="25" r="13" />
+                    <circle class="svg-logo-celula" cx="75" cy="75" r="13" />
+                    <path class="svg-logo-celula" d="M 15.81,65.81 C 28.54,53.08 33.74,59.19 46.46,46.46 C 59.19,33.74 53.08,28.54 65.81,15.81 A 13 13 0 1 1 84.19,34.19 C 71.46,46.92 66.26,40.81 53.54,53.54 C 40.81,66.26 46.92,71.46 34.19,84.19 A 13 13 0 1 1 15.81,65.81 Z" />
+                </g>
+            </svg>
+            XELLE LIMS
+        </div>
+        <p class="login-subtitle">Sistema de Gestión de Laboratorio</p>
+
+        <form id="loginForm">
+            <input type="text" id="username" class="login-input" placeholder="Usuario" required autocomplete="off">
+            <input type="password" id="password" class="login-input" placeholder="Contraseña" required>
             
-            <h2 style="color: #1D1D1B; margin-bottom: 5px;">XELLE LIMS</h2>
-            <p style="color: #888; margin-bottom: 30px; font-size: 0.9em;">Sistema Modular Seguro</p>
-            
-            <form id="loginForm">
-                <div style="position: relative;">
-                    <i class="fas fa-user" style="position: absolute; left: 15px; top: 22px; color: #aaa;"></i>
-                    <input type="text" id="user" class="login-input" placeholder="Usuario" style="padding-left: 40px;" required>
-                </div>
-                <div style="position: relative;">
-                    <i class="fas fa-lock" style="position: absolute; left: 15px; top: 22px; color: #aaa;"></i>
-                    <input type="password" id="pass" class="login-input" placeholder="Contraseña" style="padding-left: 40px;" required>
-                </div>
-                
-                <button type="submit" class="btn-login">INICIAR SESIÓN</button>
-            </form>
-            <div id="errorMsg" style="color: #e74c3c; margin-top: 15px; display: none; font-weight: bold;">
-                <i class="fas fa-exclamation-triangle"></i> Credenciales inválidas
-            </div>
+            <button type="submit" class="btn-login" style="background-color: var(--accent);">
+                INGRESAR <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div id="errorMsg" class="error-msg">
+            <i class="fas fa-exclamation-circle"></i> Credenciales incorrectas
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 12px; color: #ccc;">
+            V 1.0.0 Local
         </div>
     </div>
 
     <script>
-        sessionStorage.clear();
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const valid = AUTHORIZED_USERS.find(user => user.user === u && user.pass === p);
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const errorDiv = document.getElementById('errorMsg');
 
-            if (valid) {
-                sessionStorage.setItem('lims_user_role', valid.role);
-                sessionStorage.setItem('lims_user_name', valid.name);
+            const usersDB = {
+                'admin':   { pass: 'admin123', role: 'admin' },
+                'banco':   { pass: 'banco123', role: 'banco' },
+                'calidad': { pass: 'calidad123', role: 'calidad' }
+            };
+
+            if (usersDB[user] && usersDB[user].pass === pass) {
+                sessionStorage.setItem('lims_user_role', usersDB[user].role);
+                sessionStorage.setItem('lims_user_name', user.charAt(0).toUpperCase() + user.slice(1));
                 window.location.href = 'dashboard.html';
             } else {
-                const msg = document.getElementById('errorMsg');
-                msg.style.display = 'block';
-                document.querySelector('.login-box').animate([
-                    { transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, 
-                    { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }
+                errorDiv.style.display = 'block';
+                document.querySelector('.login-card').animate([
+                    { transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }
                 ], { duration: 300 });
             }
         });

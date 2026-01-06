@@ -3,8 +3,8 @@
     --secondary: #ecf0f1;  /* Fondo claro */
     --accent: #3498db;     /* Azul brillante */
     --text-dark: #333;
-    --banco-color: #27ae60;   /* Verde para banco */
-    --calidad-color: #8e44ad; /* Morado para calidad */
+    --banco-color: #27ae60;   
+    --calidad-color: #8e44ad; 
 }
 
 body {
@@ -18,6 +18,23 @@ body {
 .wrapper {
     display: flex;
     height: 100%;
+}
+
+/* --- ESTILOS DEL LOGO SVG --- */
+.xelle-logo-svg {
+    width: 40px;  /* Tamaño en barra lateral */
+    height: 40px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.login-logo-svg {
+    width: 60px;  /* Tamaño más grande en Login */
+    height: 60px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* SIDEBAR */
@@ -37,6 +54,9 @@ body {
     text-align: center;
     margin-bottom: 30px;
     letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar logo y texto */
 }
 
 .menu-item {
@@ -116,7 +136,7 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    border-top: 4px solid #95a5a6; /* Default gray */
+    border-top: 4px solid #95a5a6; 
     cursor: pointer;
     transition: transform 0.2s;
     position: relative;
@@ -136,14 +156,12 @@ body {
     text-transform: uppercase;
 }
 
-/* Colores por Area */
 .area-banco { border-top-color: var(--banco-color); }
 .area-banco i { color: var(--banco-color); }
 
 .area-calidad { border-top-color: var(--calidad-color); }
 .area-calidad i { color: var(--calidad-color); }
 
-/* Inputs para el form admin */
 .login-input {
     width: 100%;
     padding: 10px;
