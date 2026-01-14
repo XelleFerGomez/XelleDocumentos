@@ -25,12 +25,12 @@ const App = {
         this.Universal.setupPrintHandler();
 
         switch(docId) {
-            case 'doc-fo-lc-17': case 'doc-fo-lc-18': case 'doc-fo-lc-19': case 'doc-fo-lc-23': break;
+            case 'doc-fo-lc-ResumenRecepcion': case 'doc-fo-lc-17': case 'doc-fo-lc-18': case 'doc-fo-lc-19': case 'doc-fo-lc-23': break;
             case 'doc-fo-lc-20': this.Docs.FO_LC_20.init(); break;
             case 'doc-fo-lc-21': this.Docs.FO_LC_21.init(); break;
             case 'doc-fo-lc-22': this.Docs.FO_LC_22.init(); break;
             case 'doc-fo-lc-24': this.Docs.FO_LC_24.init(); break;
-            case 'doc-fo-lc-41': case 'doc-fo-lc-42': case 'doc-fo-lc-43': case 'doc-fo-lc-44': case 'doc-fo-lc-45': 
+            case 'doc-fo-lc-40': case 'doc-fo-lc-41': case 'doc-fo-lc-42': case 'doc-fo-lc-43': case 'doc-fo-lc-44': case 'doc-fo-lc-45': 
                 this.Docs.FO_Generic.init(docId); break;
         }
     },
@@ -368,4 +368,4 @@ document.addEventListener('DOMContentLoaded', ()=>App.init());
 window.saveForm=()=>App.Universal.saveData(); window.printForm=()=>App.Universal.printForm(); window.clearForm=()=>App.Universal.clearForm(); window.addGenericRow=(i,h)=>App.Docs.addGenericRow(i,h);
 window.addFlaskRow=()=>App.Docs.FO_LC_20.addFlaskRow(); window.addSupplyRow=()=>{const r=document.createElement('tr');r.innerHTML=`<td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td><td class="no-print"><button class="btn btn-danger btn-mini" onclick="this.closest('tr').remove()">X</button></td>`;document.getElementById('supplies-table-body').appendChild(r);}; window.addFreezeRow=()=>{const r=document.createElement('tr');r.innerHTML=`<td><input type="number" style="width:50px" value="1"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text" value="DMSO 10%"></td><td><input type="text"></td><td><input type="text"></td><td><select><option>Vial</option><option>Bolsa</option></select></td><td><input type="text"></td><td class="no-print"><button class="btn btn-danger btn-mini" onclick="this.closest('tr').remove()">X</button></td>`;document.getElementById('freeze-table-body').appendChild(r);};
 window.agregarFilaInsumo=()=>{const r=document.createElement('tr');r.innerHTML=`<td><input class="cedit"></td><td><input class="cedit"></td><td><input class="cedit"></td><td><input type="date" class="cedit"></td><td class="no-print"><button class="btn-danger btn-mini" onclick="this.closest('tr').remove()">X</button></td>`;document.querySelector('#tabla-insumos-dia tbody').appendChild(r);}; window.addFlaskManual21=()=>App.Docs.FO_LC_21.addFlaskManual();
-window.addDosis24=()=>App.Docs.FO_LC_24.addDosis(); window.addMuestra41=()=>App.Docs.addGenericRow('tbl-micro', `<td><input class='cedit'></td><td><input type='date' class='cedit'></td><td><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td><td><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td><td><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td><td><input type='date' class='cedit'></td><td><input class='cedit'></td><td class='no-print'><button class='btn-danger btn-mini' onclick='this.closest("tr").remove()'>x</button></td>`);
+window.addDosis24=()=>App.Docs.FO_LC_24.addDosis(); window.addMuestra41=()=>App.Docs.addGenericRow('tbl-micro', `<td><input class='cedit'></td><td><input type='date' class='cedit'></td><td><select class='cedit'><option>-</option><option>NEG</option><option>POS</option><option>NA</option></select></td><td><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td><td><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td><td><input type='date' class='cedit'></td><td><input class='cedit'></td><td class='no-print'><button class='btn-danger btn-mini' onclick='this.closest("tr").remove()'>x</button></td>`);

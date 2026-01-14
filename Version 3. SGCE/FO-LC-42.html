@@ -33,14 +33,16 @@
 
         <div class="header-main">
             <h1>Bitácora de Liofilización de Placenta</h1>
-            <div class="metadata">Código: FO-LC-42 | Versión: 3.0</div>
+            <div class="metadata">Código: FO-LC-42 | Versión: 2.0 | Vig: Ene2026</div>
         </div>
 
         <div class="section">
             <div class="section-title">1. Información de Placentas</div>
             <table id="tbl-mp">
-                <thead><tr><th>Código Placenta</th><th>Fecha Ingreso</th><th>Cód. Doc. Serología</th><th>Masa Húmeda (g)</th><th class="no-print"></th></tr></thead>
-                <tbody></tbody>
+                <thead><tr><th>ID Placenta</th><th>Fecha Ingreso</th><th>Cód. FO-LC-19</th><th>Masa Húmeda (g)</th><th class="no-print"></th></tr></thead>
+                <tbody>
+                    
+                </tbody><tr style="background-color: #eee; font-weight:bold;"><td colspan="3" style="text-align:right;">Total:</td><td><input class="cedit"></td></tr>
             </table>
             <button class="btn btn-primary btn-mini no-print" onclick="window.addGenericRow('tbl-mp', `<td><input class='cedit'></td><td><input type='date' class='cedit'></td><td><input class='cedit'></td><td><input type='number' class='cedit'></td><td class='no-print'><button class='btn-danger btn-mini' onclick='this.parentElement.parentElement.remove()'>x</button></td>`)">+ Placenta</button>
         </div>
@@ -65,7 +67,7 @@
             <div class="section-title">3. Monitoreo condiciones</div>
             <table id="tbl-mon" class="compact-table">
                 <thead>
-                    <tr><th>Fecha</th><th>Hora</th><th>t corrida</th><th>T. Prod</th><th>P. Vacío</th><th>T. Bandeja</th><th>T. Condens</th><th>Masa Band</th><th>% Pérdida</th><th class="no-print"></th></tr>
+                    <tr><th>Fecha</th><th>Hora </th><th>t corrida(HH:mm)</th><th>T. Prod°C</th><th>P. Vacío Psi</th><th>T. Bandeja°C</th><th>T. Condens°C</th><th>Masa Band (g)</th><th>% Pérdida</th><th class="no-print"></th></tr>
                 </thead>
                 <tbody></tbody>
             </table>
@@ -91,18 +93,47 @@
 
         <div class="section">
             <div class="section-title">6. Embalaje y Esterilización</div>
-            <table class="no-border-table">
-                <tr><td><strong>Ref. Pago:</strong> <input type="text" class="cedit"></td><td><strong>No. Servicio:</strong> <input type="text" class="cedit"></td><td><strong>Fecha Ingreso Irradiar:</strong> <input type="date" class="cedit"></td></tr>
-                <tr><td><strong>Lib. Microbiológica:</strong> <input type="text" class="cedit"></td><td><strong>Entregado por:</strong> <input type="text" class="cedit"></td><td><strong>No. Producto:</strong> <input type="text" class="cedit"></td></tr>
-                <tr><td colspan="2"><strong>Fecha Recepción Sitio:</strong> <input type="date" class="cedit"></td><td><strong>Firma Responsable:</strong> <input type="text" class="cedit"></td></tr>
+                        <table class="no-border-table">
+                <tr>
+                    <td><strong>Codigo FO-LC-45 Referencia</strong> <input type="text" class="cedit"></td>
+                    <td><strong>Ref. Pago:</strong> <input type="text" class="cedit"></td>  
+                    <td><strong>No. Servicio:</strong> <input type="text" class="cedit"></td>
+                    
+                </tr>
+                <tr>
+                    <td><strong>Lib. Microbiológica:</strong> <input type="text" class="cedit"></td>
+                    <td><strong>Fecha Ingreso Irradiar:</strong> <input type="date" class="cedit"></td>
+                    <td><strong>Entregado por:</strong> <input type="text" class="cedit"></td>
+                </tr>
             </table>
+<!--             <table class="no-border-table">
+                <tr>
+                    <td><strong>Codigo FO-LC-45 Referencia</strong> <input type="text" class="cedit"></td>
+                    <td><strong>No. Producto:</strong> <input type="text" class="cedit"></td>
+                    <td><strong>No. Servicio:</strong> <input type="text" class="cedit"></td>
+                    
+                </tr>
+                <tr>
+                    <td><strong>Ref. Pago:</strong> <input type="text" class="cedit"></td>
+                    <td><strong>Entregado por:</strong> <input type="text" class="cedit"></td>
+                    <td><strong>Fecha Ingreso Irradiar:</strong> <input type="date" class="cedit"></td>
+                    
+
+                </tr>
+                <tr>
+                    <td><strong>Fecha Recepción Sitio:</strong> <input type="date" class="cedit"></td>
+                    <td><strong>Lib. Microbiológica:</strong> <input type="text" class="cedit"></td>
+                    <td><strong>Firma Responsable:</strong> <input type="text" class="cedit"></td>
+                </tr>
+            </table> -->
         </div>
 
         <div class="signature-area">
             <div class="signature-box"><p>Realizó:</p><input type="text"><p>Firma</p></div>
             <div class="signature-box"><p>Verificó:</p><input type="text"><p>Firma</p></div>
         </div>
-        <div class="footer">FO-LC-42 | Pág 1 de 1</div>
+        <div class="footer">FO-LC-42 | Versión: 2.0 | Vigente a partir de: Enero2026<br>El contenido de este documento es propiedad 
+            de “Xelle Scientific”, S.A.P.I., de C. V., y está protegido por los derechos de autor, por lo que está prohibida su reproducción total o parcial.</div>
     </div>
 </body>
 </html>

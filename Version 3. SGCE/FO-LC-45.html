@@ -33,14 +33,24 @@
 
         <div class="header-main">
             <h1>Embalaje y Envío a Esterilización</h1>
-            <div class="metadata">Código: FO-LC-45 | Versión: 3.0</div>
+            <div class="metadata">Código: FO-LC-45 | Versión: 2.0 | Vig: Ene2026</div>
         </div>
 
         <div class="section">
             <div class="section-title">Datos Envío</div>
             <table class="no-border-table">
-                <tr><td><strong>No. Servicio:</strong> <input class="cedit"></td><td><strong>Ref. Pago:</strong> <input class="cedit"></td></tr>
-                <tr><td><strong>F. Envío:</strong> <input type="date" class="cedit"></td><td><strong>Entregado Por:</strong> <input class="cedit"></td></tr>
+                <tr>
+                    <td><strong>No. Servicio:</strong> <input class="cedit"></td>
+                    <td><strong>Ref. Pago:</strong> <input class="cedit"></td>
+                </tr>
+                <tr>
+                    <td><strong>F. Envío:</strong> <input type="date" class="cedit"></td>
+                    <td><strong>Entregado Por:</strong> <input class="cedit"></td>
+                </tr>
+                <tr>
+                    <td><strong>Referencia FO-LC-42:</strong> <input class="cedit"></td>
+                    <td><strong>Masa embalaje (kg):</strong> <input type="number" step="0.01" class="cedit" style="width: 100px;"></td>
+                </tr>
             </table>
         </div>
 
@@ -57,17 +67,31 @@
             <div class="section-title">Recepción</div>
             <table class="no-border-table">
                 <tr>
-                    <td><strong>Fecha Recepción:</strong> <input type="date" class="cedit"></td>
-                    <td><strong>Recibió (Firma/Nombre):</strong> <input type="text" class="cedit"></td>
+                    <td style="width: 30%;"><strong>Fecha Recepción:</strong> <input type="date" class="cedit"></td>
+                    <td style="width: 70%;"><strong>Recibió (Firma/Nombre):</strong> <input type="text" class="cedit"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <strong>Observaciones:</strong>
+                        <textarea class="cedit" rows="1" oninput="App.Universal.autoResize(this)" style="overflow:hidden;"></textarea>
+                    </td>
                 </tr>
             </table>
         </div>
-
+        <div class="section">
+            <div class="section-title">Verificación Documental (Checklist)</div>
+            <div style="display: flex; gap: 20px; padding: 5px;">
+                <label><input type="checkbox"> Constancia de irradiación</label>
+                <label><input type="checkbox"> Sello 10x10 de irradiación</label>
+                <label><input type="checkbox"> Carta compromiso de pago</label>
+            </div>
+        </div>
         <div class="signature-area">
             <div class="signature-box"><p>Entregó:</p><input type="text"><p>Firma</p></div>
             <div class="signature-box"><p>Recibió:</p><input type="text"><p>Firma</p></div>
         </div>
-        <div class="footer">FO-LC-45</div>
+        <div class="footer">FO-LC-45 | Versión: 2.0 | Vigente a partir de: Enero2026<br>El contenido de este documento es propiedad 
+            de “Xelle Scientific”, S.A.P.I., de C. V., y está protegido por los derechos de autor, por lo que está prohibida su reproducción total o parcial.</div>
     </div>
 </body>
 </html>

@@ -116,3 +116,59 @@ div:where(.swal2-container) { z-index: 2000 !important; }
     .section { border: none !important; padding: 0 !important; margin-bottom: 30px !important; }
     .section-title { background-color: #333 !important; color: white !important; border: 1px solid #000; margin-bottom: 5px !important; }
 }
+/* --- AGREGAR AL FINAL DE format-styles.css --- */
+
+@media print {
+    /* Ocultar leyendas (footer) y elementos marcados como no imprimir */
+    .footer, .no-print-legend {
+        display: none !important;
+    }
+
+    /* Solución fechas cortadas y ocultar icono calendario */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none !important;
+        -webkit-appearance: none;
+    }
+    input[type="date"] {
+        background: transparent !important;
+        padding-right: 0 !important;
+        width: auto !important; /* Permite que el texto fluya */
+        min-width: 80px; /* Asegura espacio mínimo para la fecha */
+        overflow: visible;
+    }
+    
+    /* Asegurar que los selects se vean limpios (usando el span generado por JS) */
+    select { display: none !important; }
+}
+
+/* --- AGREGAR AL FINAL DE format-styles.css --- */
+@media print {
+    /* Ocultar elementos de navegación y leyendas (footer) */
+    .footer, .no-print, .global-controls, .btn {
+        display: none !important;
+    }
+
+    /* Ajuste crítico para Fechas: Muestra todo el texto y oculta icono calendario */
+    input[type="date"] {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: auto !important;
+        min-width: 80px;
+        appearance: none;
+        -webkit-appearance: none;
+        font-family: inherit;
+        color: #000;
+        display: inline-block;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none !important;
+        -webkit-appearance: none;
+    }
+    
+    /* Forzar que las columnas se ajusten al contenido */
+    th, td { white-space: nowrap; }
+    /* Permitir saltos de línea solo en columnas largas como observaciones */
+    td textarea, td .wrap-text { white-space: normal; }
+}

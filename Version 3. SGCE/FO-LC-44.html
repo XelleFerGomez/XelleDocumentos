@@ -42,12 +42,12 @@
 
         <div class="header-main">
             <h1>Liberación Microbiológica Flasks y Crioviales</h1>
-            <div class="metadata">Código: FO-LC-44 | Versión: 3.0</div>
+            <div class="metadata">Código: FO-LC-44 | Versión: 2.0 | Vig: Ene2026</div>
         </div>
 
-        <div class="section">
+        <!-- <div class="section">
             <label><strong>Responsable:</strong> <input type="text" id="responsable_lib" class="cedit" style="width:300px;"></label>
-        </div>
+        </div> -->
 
         <div class="section">
             <table id="tbl-flask" class="compact-table">
@@ -59,7 +59,7 @@
                         <th colspan="2" class="text-center header-cell-group" width="16%">Aerobio</th>
                         <th colspan="2" class="text-center header-cell-group" width="16%">Hongos</th>
                         <th rowspan="2" width="8%" class="text-center">F. Término</th>
-                        <th rowspan="2" width="12%" class="text-center">Estado</th>
+                        <th rowspan="2" style="width: 8%; white-space: nowrap; padding: 0 5px;" class="text-center">Estado</th>
                         <th rowspan="2" width="4%" class="no-print"></th>
                     </tr>
                     <tr>
@@ -70,24 +70,25 @@
                 </thead>
                 <tbody></tbody>
             </table>
-            
+            <p>*POS= positivo; NEG= negativo; NA= no aplicable</p><p>*LIB= liberado; RECH= Rechazado; NA= no aplicable</p>
             <button class="btn btn-primary btn-mini no-print" onclick="window.addGenericRow('tbl-flask', `
                 <td><input class='cedit'></td>
                 <td class='text-center'><input type='date' class='cedit'></td>
                 
                 <td class='text-center'><input type='date' class='cedit'></td>
-                <td class='text-center'><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td>
+                <td class='text-center'><select class='cedit'><option>-</option><option>NEG</option><option>POS</option><option>NA</option></select></td>
                 
                 <td class='text-center'><input type='date' class='cedit'></td>
-                <td class='text-center'><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td>
+                <td class='text-center'><select class='cedit'><option>-</option><option>NEG</option><option>POS</option><option>NA</option></select></td>
                 
                 <td class='text-center'><input type='date' class='cedit'></td>
-                <td class='text-center'><select class='cedit'><option>-</option><option>NEG</option><option>POS</option></select></td>
+                <td class='text-center'><select class='cedit'><option>-</option><option>NEG</option><option>POS</option><option>NA</option></select></td>
                 
                 <td class='text-center'><input type='date' class='cedit'></td>
-                <td class='text-center'><select class='cedit' style='font-weight:bold;'><option value=''>-</option><option value='LIBERADO'>LIBERADO</option><option value='RETENIDO'>RETENIDO</option></select></td>
+                <td class='text-center'><select class='cedit' style='font-weight:bold;'><option value=''>-</option><option value='LIBERADO'>LIB</option><option value='RECHAZADO'>RECH</option></select></td>
                 <td class='no-print'><button class='btn-danger btn-mini' onclick='this.parentElement.parentElement.remove()'>x</button></td>
-            `)">+ Agregar Muestra</button>
+            `)">
+            + Agregar Muestra</button>
         </div>
 
         <div class="section">
@@ -99,7 +100,8 @@
             <div class="signature-box"><p>Realizó:</p><input type="text"><p>Firma</p></div>
             <div class="signature-box"><p>Verificó:</p><input type="text"><p>Firma</p></div>
         </div>
-        <div class="footer">FO-LC-44</div>
+        <div class="footer">FO-LC-44 | Versión: 2.0 | Vigente a partir de: Enero2026<br>El contenido de este documento es propiedad 
+            de “Xelle Scientific”, S.A.P.I., de C. V., y está protegido por los derechos de autor, por lo que está prohibida su reproducción total o parcial.</div>
     </div>
 </body>
 </html>
