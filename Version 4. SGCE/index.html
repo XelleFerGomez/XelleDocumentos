@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso - XELLE LIMS</title>
+    <link rel="stylesheet" href="lims-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="config-users.js"></script>
+</head>
+<body style="background-color: var(--primary); display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+
+    <div class="doc-card" style="width: 100%; max-width: 400px; text-align: center; padding: 40px;">
+        <div style="margin-bottom: 20px;">
+            <svg style="width: 80px; height: 80px;" viewBox="10 10 80 80" xmlns="http://www.w3.org/2000/svg">
+                <defs><style>.svg-logo-celula { fill: #2E9D82; }</style></defs>
+                <g>
+                    <circle class="svg-logo-celula" cx="25" cy="25" r="13" />
+                    <circle class="svg-logo-celula" cx="75" cy="75" r="13" />
+                    <path class="svg-logo-celula" d="M 15.81,65.81 C 28.54,53.08 33.74,59.19 46.46,46.46 C 59.19,33.74 53.08,28.54 65.81,15.81 A 13 13 0 1 1 84.19,34.19 C 71.46,46.92 66.26,40.81 53.54,53.54 C 40.81,66.26 46.92,71.46 34.19,84.19 A 13 13 0 1 1 15.81,65.81 Z" />
+                </g>
+            </svg>
+        </div>
+        
+        <h2 style="color: #2c3e50; margin: 0;">XELLE LIMS</h2>
+        <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 30px;">Sistema Modular Seguro v3.1</p>
+
+        <form id="loginForm">
+            <input type="text" id="user" class="login-input" placeholder="Usuario (Ej: Xelle_Fer)" required style="margin-bottom: 15px;">
+            <input type="password" id="pass" class="login-input" placeholder="Contraseña" required style="margin-bottom: 20px;">
+            
+            <button type="submit" class="btn-login" style="background-color: var(--accent);">INGRESAR</button>
+        </form>
+
+        <div id="errorMsg" style="color: #e74c3c; margin-top: 15px; display: none; font-size: 13px;">
+            <i class="fas fa-exclamation-circle"></i> <span id="errorText">Error</span>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const u = document.getElementById('user').value.trim();
+            const p = document.getElementById('pass').value.trim();
+            
+            // Usar el Core para login seguro
+            const result = window.Core.Auth.login(u, p);
+
+            if (result.success) {
+                window.location.href = 'dashboard.html';
+            } else {
+                const err = document.getElementById('errorMsg');
+                document.getElementById('errorText').innerText = result.msg;
+                err.style.display = 'block';
+                // Animación simple de error
+                document.querySelector('.doc-card').animate([
+                    { transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, 
+                    { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }
+                ], { duration: 300 });
+            }
+        });
+    </script>
+</body>
+</html>
