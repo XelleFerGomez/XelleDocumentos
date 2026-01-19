@@ -1,53 +1,64 @@
-/* config-users.js - V7.3 (Iconos y Logos Definitivos) */
+/* config-users.js - V10.1 */
 
-// DEFINICIÓN DE ICONOS SVG (Vectoriales, no requieren imágenes externas)
+// COLORES CORPORATIVOS (Referencia)
+// Verde: #2FA583 | Azul: #1E3A5F | Cielo: #64C4ED
+
 const ICONS = {
-    // LOGO XELLE: Hélice de ADN estilizada con los colores corporativos
-    LOGO: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-            <defs>
-                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.2)"/>
-                </filter>
-            </defs>
-            <circle cx="50" cy="50" r="45" fill="#ffffff" stroke="#27ae60" stroke-width="2" filter="url(#shadow)"/>
-            <path d="M30 30 Q 50 50 70 30" stroke="#2c3e50" stroke-width="6" fill="none" stroke-linecap="round"/>
-            <path d="M30 70 Q 50 50 70 70" stroke="#2c3e50" stroke-width="6" fill="none" stroke-linecap="round"/>
-            <circle cx="30" cy="30" r="7" fill="#27ae60"/>
-            <circle cx="70" cy="70" r="7" fill="#3498db"/>
-            <circle cx="70" cy="30" r="7" fill="#9b59b6"/>
-            <circle cx="30" cy="70" r="7" fill="#e74c3c"/>
+    // LOGO XELLE OFICIAL (SVG)
+    LOGO: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <circle cx="50" cy="50" r="48" fill="#ffffff" stroke="#2FA583" stroke-width="2"/>
+            <path d="M30 25 Q 50 50 70 25" stroke="#1E3A5F" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M30 75 Q 50 50 70 75" stroke="#1E3A5F" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <circle cx="30" cy="25" r="6" fill="#2FA583"/>
+            <circle cx="70" cy="75" r="6" fill="#64C4ED"/>
+            <circle cx="70" cy="25" r="6" fill="#1E3A5F"/>
+            <circle cx="30" cy="75" r="6" fill="#2FA583"/>
            </svg>`,
-
-    // Iconos de Módulos
-    BANCO: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><path d="M6 3h12"/><path d="M10 13h4"/></svg>`,
-    CALIDAD: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21h20"/><path d="M7 21V10l-4-5h12l-4 5v11"/><circle cx="12" cy="7" r="4"/></svg>`,
-    ALMACEN: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
-    SGC: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
-    ADMIN: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`,
-    COMERCIAL: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`
+           
+    // ICONOS MÓDULOS
+    BANCO: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v12a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><path d="M6 3h12"/><path d="M10 13h4"/></svg>`,
+    CALIDAD: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 21h20"/><path d="M7 21V10l-4-5h12l-4 5v11"/><circle cx="12" cy="7" r="4"/></svg>`,
+    ALMACEN: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`,
+    SGC: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+    ADMIN: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`,
+    COMERCIAL: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`
 };
 
-window.AppConfig = {
-    // 1. USUARIOS
+// DATOS INICIALES
+window.SeedData = {
     users: [
-        { id: 1, user: "Xelle_Admin", pass: "Xelle", role: "admin", name: "Administrador General", active: true },
-        { id: 2, user: "Banco", pass: "1234", role: "banco", name: "Responsable Banco", active: true },
-        { id: 3, user: "Calidad", pass: "1234", role: "calidad", name: "Responsable Calidad", active: true },
-        { id: 4, user: "Almacen", pass: "1234", role: "almacen", name: "Encargado Almacén", active: true },
-        { id: 5, user: "SGC", pass: "1234", role: "sgc", name: "Control Documental", active: true },
-        { id: 6, user: "Comercial", pass: "1234", role: "comercial", name: "Gerente Comercial", active: true }
+        { id: 1, user: 'Xelle_Fer', pass: 'Lufe3120', name: 'Fernando (Dev)', role: 'admin', active: true, modules: ['all'] },
+        { id: 2, user: 'Xelle_Admin', pass: 'Xelle', name: 'Administrador Gral', role: 'admin', active: true, modules: ['all'] },
+        { id: 3, user: 'Xelle_Lab', pass: 'Xelle_Calidad', name: 'Laboratorio Calidad', role: 'calidad', active: true, modules: ['calidad'] },
+        { id: 4, user: 'Xelle_Banco', pass: 'Xelle_Cultivo', name: 'Banco de Células', role: 'banco', active: true, modules: ['banco'] },
+        { id: 5, user: 'Xelle_Cultivo', pass: 'Xelle_Cultivo', name: 'Fanny (Banco)', role: 'banco', active: true, modules: ['banco'] }
     ],
-
-    // 2. MÓDULOS
     modules: [
-        { id: 'banco', label: 'Banco de Células', svg: ICONS.BANCO, colorClass: 'mc-blue', roles: ['admin', 'banco'], visible: true, order: 1 },
-        { id: 'calidad', label: 'Lab. Calidad', svg: ICONS.CALIDAD, colorClass: 'mc-purple', roles: ['admin', 'calidad'], visible: true, order: 2 },
-        { id: 'almacen', label: 'Almacén', svg: ICONS.ALMACEN, colorClass: 'mc-green', roles: ['admin', 'almacen', 'banco', 'calidad'], visible: true, order: 3 },
+        { id: 'banco', label: 'Banco de Células', svg: ICONS.BANCO, colorClass: 'mc-teal', roles: ['admin', 'banco'], visible: true, order: 1 },
+        { id: 'calidad', label: 'Lab. Calidad', svg: ICONS.CALIDAD, colorClass: 'mc-navy', roles: ['admin', 'calidad'], visible: true, order: 2 },
+        { id: 'almacen', label: 'Almacén', svg: ICONS.ALMACEN, colorClass: 'mc-sky', roles: ['admin', 'almacen', 'banco', 'calidad'], visible: true, order: 3 },
         { id: 'sgc', label: 'Biblioteca SGC', svg: ICONS.SGC, colorClass: 'mc-orange', roles: ['admin', 'calidad', 'sgc', 'banco'], visible: true, order: 4 },
         { id: 'comercial', label: 'Comercial', svg: ICONS.COMERCIAL, colorClass: 'mc-red', roles: ['admin', 'comercial'], visible: true, order: 5 },
         { id: 'admin', label: 'Administración', svg: ICONS.ADMIN, colorClass: 'mc-dark', roles: ['admin'], visible: true, order: 99 }
     ],
-
-    // LOGO GLOBAL EXPORTADO
+    formats: [
+        // BANCO
+        { id: 16, code: 'FO-LC-16', title: 'Bitácora de Limpieza', area: 'banco', file: 'FO-LC-16.html' },
+        { id: 17, code: 'FO-LC-17', title: 'Recepción de Muestras', area: 'banco', file: 'FO-LC-17.html' },
+        { id: 18, code: 'FO-LC-18', title: 'Evaluación Macroscópica', area: 'banco', file: 'FO-LC-18.html' },
+        { id: 19, code: 'FO-LC-19', title: 'Liberación de Lote', area: 'banco', file: 'FO-LC-19.html' },
+        { id: 20, code: 'FO-LC-20', title: 'Procesamiento de Tejido', area: 'banco', file: 'FO-LC-20.html' },
+        { id: 21, code: 'FO-LC-21', title: 'Bitácora de Cultivo', area: 'banco', file: 'FO-LC-21.html' },
+        { id: 22, code: 'FO-LC-22', title: 'Criopreservación', area: 'banco', file: 'FO-LC-22.html' },
+        { id: 23, code: 'FO-LC-23', title: 'Control de Inventario', area: 'banco', file: 'FO-LC-23.html' },
+        { id: 24, code: 'FO-LC-24', title: 'Etiquetado Final', area: 'banco', file: 'FO-LC-24.html' },
+        // CALIDAD
+        { id: 40, code: 'FO-LC-40', title: 'Preparación de Medios', area: 'calidad', file: 'FO-LC-40.html' },
+        { id: 41, code: 'FO-LC-41', title: 'Control Microbiológico', area: 'calidad', file: 'FO-LC-41.html' },
+        { id: 42, code: 'FO-LC-42', title: 'Monitoreo Ambiental', area: 'calidad', file: 'FO-LC-42.html' },
+        { id: 43, code: 'FO-LC-43', title: 'Control de Partículas', area: 'calidad', file: 'FO-LC-43.html' },
+        { id: 44, code: 'FO-LC-44', title: 'Certificado de Análisis', area: 'calidad', file: 'FO-LC-44.html' },
+        { id: 45, code: 'FO-LC-45', title: 'Liberación de Producto', area: 'calidad', file: 'FO-LC-45.html' }
+    ],
     LOGO_SVG: ICONS.LOGO
 };

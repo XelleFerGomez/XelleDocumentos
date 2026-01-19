@@ -4,62 +4,34 @@
     <meta charset="UTF-8">
     <title>Xelle Lims - Acceso</title>
     <link rel="stylesheet" href="lims-theme.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-
     <div class="login-container">
         <div class="login-card">
-            <div class="login-logo-svg">
-                <svg  viewBox="10 10 80 80" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <style>
-                            .svg-logo-celula { fill: #2E9D82; }
-                            </style>
-                        </defs>
-                        <g>
-                            <circle class="svg-logo-celula" cx="25" cy="25" r="13" />
-                            <circle class="svg-logo-celula" cx="75" cy="75" r="13" />
-                            <path class="svg-logo-celula" d="M 15.81,65.81 C 28.54,53.08 33.74,59.19 46.46,46.46 C 59.19,33.74 53.08,28.54 65.81,15.81 A 13 13 0 1 1 84.19,34.19 C 71.46,46.92 66.26,40.81 53.54,53.54 C 40.81,66.26 46.92,71.46 34.19,84.19 A 13 13 0 1 1 15.81,65.81 Z" />
-                        </g>
-                </svg>
-            </div>
-            
+            <div id="login-logo-place" class="login-logo"></div>
             <h2 class="login-title">XELLE SCIENTIFIC</h2>
-            
             <form id="loginForm">
                 <input type="text" id="txtUser" class="form-input" placeholder="Usuario" required>
                 <input type="password" id="txtPass" class="form-input" placeholder="Contraseña" required>
                 <button type="submit" class="btn-primary">Iniciar Sesión</button>
                 <p id="errorMsg" class="error-msg"></p>
             </form>
-            
-            <div style="margin-top:30px; font-size:11px; color:#aaa;">Sistema V8.0 (Local Stable)</div>
+            <div style="margin-top:20px; font-size:11px; color:#a0aec0;">Sistema V10.1</div>
         </div>
     </div>
-
     <script src="config-users.js"></script>
     <script src="lims-core.js"></script>
-
     <script>
         $(document).ready(function() {
-            if(!window.AppConfig) {
-                $('#errorMsg').text("Error: config-users.js no encontrado").show();
-                return;
-            }
+            if(window.SeedData && window.SeedData.LOGO_SVG) $('#login-logo-place').html(window.SeedData.LOGO_SVG);
             $('#loginForm').on('submit', function(e) {
                 e.preventDefault();
                 const u = $('#txtUser').val().trim();
                 const p = $('#txtPass').val().trim();
-                
-                if (window.Core && window.Core.Auth) {
-                    const res = window.Core.Auth.login(u, p);
-                    if (res.success) window.location.href = 'dashboard.html';
-                    else $('#errorMsg').text(res.msg).slideDown();
-                } else {
-                    $('#errorMsg').text("Error: Core no iniciado").show();
-                }
+                const res = window.Core.Auth.login(u, p);
+                if (res.success) window.location.href = 'dashboard.html';
+                else $('#errorMsg').text(res.msg).slideDown();
             });
         });
     </script>
