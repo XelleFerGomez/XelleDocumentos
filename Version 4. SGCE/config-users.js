@@ -1,21 +1,8 @@
-/* config-users.js - V10.1 */
+/* config-users.js - V11.1 MASTER DATA */
 
-// COLORES CORPORATIVOS (Referencia)
-// Verde: #2FA583 | Azul: #1E3A5F | Cielo: #64C4ED
-
+// 1. ICONOS SVG (Sistema Visual Incrustado)
 const ICONS = {
-    // LOGO XELLE OFICIAL (SVG)
-    LOGO: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-            <circle cx="50" cy="50" r="48" fill="#ffffff" stroke="#2FA583" stroke-width="2"/>
-            <path d="M30 25 Q 50 50 70 25" stroke="#1E3A5F" stroke-width="5" fill="none" stroke-linecap="round"/>
-            <path d="M30 75 Q 50 50 70 75" stroke="#1E3A5F" stroke-width="5" fill="none" stroke-linecap="round"/>
-            <circle cx="30" cy="25" r="6" fill="#2FA583"/>
-            <circle cx="70" cy="75" r="6" fill="#64C4ED"/>
-            <circle cx="70" cy="25" r="6" fill="#1E3A5F"/>
-            <circle cx="30" cy="75" r="6" fill="#2FA583"/>
-           </svg>`,
-           
-    // ICONOS MÓDULOS
+    LOGO: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="#F4F8F6" stroke="#2FA583" stroke-width="3"/><path d="M30 30 Q 50 50 70 30" stroke="#1E3A5F" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M30 70 Q 50 50 70 70" stroke="#1E3A5F" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="30" cy="30" r="6" fill="#2FA583"/><circle cx="70" cy="70" r="6" fill="#64C4ED"/><circle cx="70" cy="30" r="6" fill="#1E3A5F"/><circle cx="30" cy="70" r="6" fill="#2FA583"/></svg>`,
     BANCO: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v12a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><path d="M6 3h12"/><path d="M10 13h4"/></svg>`,
     CALIDAD: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 21h20"/><path d="M7 21V10l-4-5h12l-4 5v11"/><circle cx="12" cy="7" r="4"/></svg>`,
     ALMACEN: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`,
@@ -24,22 +11,22 @@ const ICONS = {
     COMERCIAL: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`
 };
 
-// DATOS INICIALES
+// 2. DATOS SEMILLA (Se cargan si se borra el historial)
 window.SeedData = {
     users: [
         { id: 1, user: 'Xelle_Fer', pass: 'Lufe3120', name: 'Fernando (Dev)', role: 'admin', active: true, modules: ['all'] },
         { id: 2, user: 'Xelle_Admin', pass: 'Xelle', name: 'Administrador Gral', role: 'admin', active: true, modules: ['all'] },
-        { id: 3, user: 'Xelle_Lab', pass: 'Xelle_Calidad', name: 'Laboratorio Calidad', role: 'calidad', active: true, modules: ['calidad'] },
-        { id: 4, user: 'Xelle_Banco', pass: 'Xelle_Cultivo', name: 'Banco de Células', role: 'banco', active: true, modules: ['banco'] },
+        { id: 3, user: 'Xelle_Lab', pass: 'Xelle_Calidad', name: 'Laboratorio Calidad', role: 'calidad', active: true, modules: ['calidad', 'almacen'] },
+        { id: 4, user: 'Xelle_Banco', pass: 'Xelle_Cultivo', name: 'Banco de Células', role: 'banco', active: true, modules: ['banco', 'almacen'] },
         { id: 5, user: 'Xelle_Cultivo', pass: 'Xelle_Cultivo', name: 'Fanny (Banco)', role: 'banco', active: true, modules: ['banco'] }
     ],
     modules: [
-        { id: 'banco', label: 'Banco de Células', svg: ICONS.BANCO, colorClass: 'mc-teal', roles: ['admin', 'banco'], visible: true, order: 1 },
-        { id: 'calidad', label: 'Lab. Calidad', svg: ICONS.CALIDAD, colorClass: 'mc-navy', roles: ['admin', 'calidad'], visible: true, order: 2 },
-        { id: 'almacen', label: 'Almacén', svg: ICONS.ALMACEN, colorClass: 'mc-sky', roles: ['admin', 'almacen', 'banco', 'calidad'], visible: true, order: 3 },
-        { id: 'sgc', label: 'Biblioteca SGC', svg: ICONS.SGC, colorClass: 'mc-orange', roles: ['admin', 'calidad', 'sgc', 'banco'], visible: true, order: 4 },
-        { id: 'comercial', label: 'Comercial', svg: ICONS.COMERCIAL, colorClass: 'mc-red', roles: ['admin', 'comercial'], visible: true, order: 5 },
-        { id: 'admin', label: 'Administración', svg: ICONS.ADMIN, colorClass: 'mc-dark', roles: ['admin'], visible: true, order: 99 }
+        { id: 'banco', label: 'Banco de Células', svg: ICONS.BANCO, colorClass: 'mc-teal', visible: true, order: 1 },
+        { id: 'calidad', label: 'Lab. Calidad', svg: ICONS.CALIDAD, colorClass: 'mc-navy', visible: true, order: 2 },
+        { id: 'almacen', label: 'Almacén', svg: ICONS.ALMACEN, colorClass: 'mc-sky', visible: true, order: 3 },
+        { id: 'sgc', label: 'Biblioteca SGC', svg: ICONS.SGC, colorClass: 'mc-orange', visible: true, order: 4 },
+        { id: 'comercial', label: 'Comercial', svg: ICONS.COMERCIAL, colorClass: 'mc-red', visible: true, order: 5 },
+        { id: 'admin', label: 'Administración', svg: ICONS.ADMIN, colorClass: 'mc-dark', visible: true, order: 99 }
     ],
     formats: [
         // BANCO
