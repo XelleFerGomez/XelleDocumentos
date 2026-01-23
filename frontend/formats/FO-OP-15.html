@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FO-VE-01 Registro Pedidos</title>
+    <link rel="stylesheet" href="format-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="format-app.js"></script>
+</head>
+<body id="doc-fo-ve-01">
+    <div class="global-controls no-print">
+        <button class="btn btn-success" onclick="saveForm()">Guardar</button>
+        <button class="btn btn-primary" onclick="printForm()">Imprimir</button>
+        <button class="btn btn-danger" onclick="clearForm()">Limpiar</button>
+    </div>
+
+    <div class="container">
+        <div class="header-top">
+            <div class="logo-container">
+                <svg viewBox="0 0 320 80"><defs><style>.svg-logo-titulo{font-family:'Arial Black',sans-serif;font-weight:900;fill:#1D1D1B}.svg-logo-subtitulo{font-family:'Arial',sans-serif;font-weight:700;fill:#1D1D1B;letter-spacing:2px}.svg-logo-celula{fill:#2E9D82}</style></defs><g transform="translate(0, -2) scale(0.85)"><circle class="svg-logo-celula" cx="25" cy="25" r="13"/><circle class="svg-logo-celula" cx="75" cy="75" r="13"/><path class="svg-logo-celula" d="M15.81,65.81C28.54,53.08 33.74,59.19 46.46,46.46C59.19,33.74 53.08,28.54 65.81,15.81A13 13 0 1 1 84.19,34.19C71.46,46.92 66.26,40.81 53.54,53.54C40.81,66.26 46.92,71.46 34.19,84.19A13 13 0 1 1 15.81,65.81Z"/></g><text x="90" y="42" class="svg-logo-titulo" font-size="34">XELLE</text><text x="91" y="68" class="svg-logo-subtitulo" font-size="19">SCIENTIFIC</text><text x="215" y="35" font-family="Arial" font-size="10" fill="#1D1D1B">®</text></svg>
+            </div>
+            <div class="registry-container">
+                <label>No. Pedido</label>
+                <div class="registry-wrapper">
+                    <span class="registry-prefix">PED-</span>
+                    <input type="text" id="reg-ve-01" class="registry-input generate-barcode" data-target="barcode-ve-01" data-prefix="PED-">
+                </div>
+                <input type="date" class="registry-date no-auto-date">
+                <svg id="barcode-ve-01" class="barcode-svg"></svg>
+            </div>
+        </div>
+
+        <div class="header-main">
+            <h1>REGISTRO ÚNICO DE PEDIDOS</h1>
+            <div class="metadata">Código: FO-VE-01 | Versión: 1.0 | Vig: Ene2026</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">1. Datos del Cliente y Venta</div>
+            <table class="no-border-table">
+                <tr>
+                    <td width="60%"><strong>Cliente:</strong> <input class="cedit"></td>
+                    <td width="40%"><strong>Teléfono:</strong> <input class="cedit"></td>
+                </tr>
+                <tr>
+                    <td><strong>Quien Recibe:</strong> <input class="cedit"></td>
+                    <td><strong>Vendedor:</strong> <input class="cedit"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Dirección:</strong> <input class="cedit"></td>
+                </tr>
+            </table>
+            <div style="margin-top: 5px; text-align: right;">
+                <strong>Tipo Venta:</strong>
+                <label><input type="radio" name="tipo_venta" value="Local"> Local</label>
+                <label><input type="radio" name="tipo_venta" value="Foraneo" style="margin-left: 10px;"> Foráneo</label>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">2. Seguimiento del Proceso</div>
+            <table class="compact-table text-center">
+                <thead>
+                    <tr>
+                        <th colspan="2">SOLICITUD</th>
+                        <th>SURTIDO</th>
+                        <th colspan="2">EMPACADO</th>
+                        <th colspan="3">ENVÍO / DOCUMENTACIÓN</th>
+                        <th colspan="2">ENTREGA</th>
+                    </tr>
+                    <tr>
+                        <th width="10%">Fecha</th>
+                        <th width="8%">Hora</th>
+                        <th width="10%">Remisión</th>
+                        <th width="10%">Fecha</th>
+                        <th width="8%">Hora</th>
+                        <th width="15%">Paquetería</th>
+                        <th width="15%">Guía</th>
+                        <th width="5%">Doc</th>
+                        <th width="10%">Fecha</th>
+                        <th width="8%">Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="date" class="cedit"></td>
+                        <td><input type="time" class="cedit"></td>
+                        <td><input class="cedit"></td>
+                        <td><input type="date" class="cedit"></td>
+                        <td><input type="time" class="cedit"></td>
+                        <td><input class="cedit"></td>
+                        <td><input class="cedit"></td>
+                        <td><input type="checkbox"></td>
+                        <td><input type="date" class="cedit"></td>
+                        <td><input type="time" class="cedit"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">3. Descripción del Pedido</div>
+            <table id="tbl-pedidos" class="compact-table">
+                <thead>
+                    <tr>
+                        <th width="10%">Cantidad</th>
+                        <th width="25%">Producto</th>
+                        <th width="25%">Presentación</th>
+                        <th width="20%">Lote</th>
+                        <th width="15%">Caducidad</th>
+                        <th width="5%" class="no-print"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button class="btn btn-primary btn-mini no-print" onclick="addPedidoRow()">+ Agregar Producto</button>
+        </div>
+
+        <div class="section">
+            <div class="section-title">4. Material de Empaque Utilizado</div>
+            <div style="display: flex; gap: 20px;">
+                <div style="width: 50%;">
+                    <table class="compact-table">
+                        <thead><tr><th>Tipo Hielera</th><th>Cantidad</th></tr></thead>
+                        <tbody>
+                            <tr><td>Chica</td><td><input type="number" class="cedit"></td></tr>
+                            <tr><td>Mediana</td><td><input type="number" class="cedit"></td></tr>
+                            <tr><td>Grande</td><td><input type="number" class="cedit"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width: 50%;">
+                    <table class="compact-table">
+                        <thead><tr><th>Insumo</th><th>Cantidad</th></tr></thead>
+                        <tbody>
+                            <tr><td>Geles Refrigerantes</td><td><input type="number" class="cedit"></td></tr>
+                            <tr><td>Caja Cartón</td><td><input type="number" class="cedit"></td></tr>
+                            <tr><td>Otros</td><td><input class="cedit"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <label><strong>Observaciones:</strong></label>
+                <textarea class="cedit" style="height: 60px;"></textarea>
+            </div>
+        </div>
+
+        <div class="signature-area">
+            <div class="signature-box"><p>Surtido / Almacén:</p><input type="text"><p>Firma</p></div>
+            <div class="signature-box"><p>Validación Ventas:</p><input type="text"><p>Firma</p></div>
+        </div>
+        <div class="footer">FO-VE-01 | Registro Único de Pedidos | Versión: 1.0</div>
+    </div>
+</body>
+</html>
