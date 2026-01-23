@@ -2,13 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>FO-VE-01 Registro Pedidos</title>
-    <link rel="stylesheet" href="format-styles.css">
+    <title>FO-OP-15 Registro Pedidos</title>
+    <link rel="stylesheet" href="format-styles-comercial.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="format-app.js"></script>
+    
+    <script src="format-app-comercial.js"></script>
 </head>
-<body id="doc-fo-ve-01">
+<body id="doc-fo-op-15">
     <div class="global-controls no-print">
         <button class="btn btn-success" onclick="saveForm()">Guardar</button>
         <button class="btn btn-primary" onclick="printForm()">Imprimir</button>
@@ -24,16 +26,16 @@
                 <label>No. Pedido</label>
                 <div class="registry-wrapper">
                     <span class="registry-prefix">PED-</span>
-                    <input type="text" id="reg-ve-01" class="registry-input generate-barcode" data-target="barcode-ve-01" data-prefix="PED-">
+                    <input type="text" id="reg-op-15" class="registry-input generate-barcode" data-target="barcode-op-15" data-prefix="PED-">
                 </div>
                 <input type="date" class="registry-date no-auto-date">
-                <svg id="barcode-ve-01" class="barcode-svg"></svg>
+                <svg id="barcode-op-15" class="barcode-svg"></svg>
             </div>
         </div>
 
         <div class="header-main">
             <h1>REGISTRO ÚNICO DE PEDIDOS</h1>
-            <div class="metadata">Código: FO-VE-01 | Versión: 1.0 | Vig: Ene2026</div>
+            <div class="metadata">Código: FO-OP-15 | Versión: 1.0 | Vig: Ene2026</div>
         </div>
 
         <div class="section">
@@ -152,7 +154,7 @@
             <div class="signature-box"><p>Surtido / Almacén:</p><input type="text"><p>Firma</p></div>
             <div class="signature-box"><p>Validación Ventas:</p><input type="text"><p>Firma</p></div>
         </div>
-        <div class="footer">FO-VE-01 | Registro Único de Pedidos | Versión: 1.0</div>
+        <div class="footer">FO-OP-15 | Registro Único de Pedidos | Versión: 1.0</div>
     </div>
 </body>
 </html>

@@ -1,11 +1,12 @@
 /**
  * FORMAT-APP-COMERCIAL.JS
- * Suite Comercial y Recepción (FO-OP-15, FO-LC-16, FO-LC-17)
+ * Módulo exclusivo para Ventas y Operaciones Comerciales.
+ * Independiente del sistema de Laboratorio (FO-LC).
  */
 
 const AppCom = {
     config: {
-        // Base de datos de productos para pedidos (FO-OP-15)
+        // Base de datos de productos comerciales
         DB_PRODUCTS: {
             "Stem Xelle": { lotPre: "XCM", pres: ["10 M", "25 M", "50 M", "100 M"] },
             "Hybrid Xelle": { lotPre: "XHY", pres: ["10M + 1B", "25M + 2B", "50M + 5B", "60M + 6B", "100M + 10B"] },
@@ -17,24 +18,16 @@ const AppCom = {
 
     init: function() {
         const docId = document.body.id;
-        console.log("Iniciando Suite Comercial para:", docId);
+        console.log("Iniciando App Comercial para:", docId);
         
         this.Universal.setupDateInputs();
         this.Universal.setupBarcodes();
         this.Universal.loadData(docId);
         this.Universal.setupPrintHandler();
 
-        // Enrutador de lógica según documento
-        switch(docId) {
-            case 'doc-fo-op-15': // Registro de Pedidos
-                this.FO_OP_15.init(); 
-                break;
-            case 'doc-fo-lc-16': // Resumen Ejecutivo
-                this.FO_LC_16.init(); 
-                break;
-            case 'doc-fo-lc-17': // Recepción
-                // La lógica es principalmente guardar/cargar standard, manejado por Universal
-                break;
+        // Inicialización específica del formato
+        if (docId === 'doc-fo-op-15') {
+            this.FO_OP_15.init();
         }
     },
 
@@ -86,8 +79,8 @@ const AppCom = {
                     else data[el.id || el.name] = el.value;
                 }
             });
-            // Guardar datos custom según el módulo activo
-            if (docId === 'doc-fo-op-15' && AppCom.FO_OP_15.getCustomData) {
+            // Guardar datos custom
+            if (docId === 'doc-fo-op-15') {
                 Object.assign(data, AppCom.FO_OP_15.getCustomData());
             }
             localStorage.setItem(`xelle_comercial_${docId}`, JSON.stringify(data));
@@ -109,15 +102,7 @@ const AppCom = {
                     el.dispatchEvent(new Event('change')); 
                 }
             }
-            // Cargar datos custom
-            if (docId === 'doc-fo-op-15' && AppCom.FO_OP_15.loadCustomData) {
-                AppCom.FO_OP_15.loadCustomData(data);
-            }
-            // Trigger específico para FO-LC-16 (colores)
-            if (docId === 'doc-fo-lc-16') {
-                const decSelect = document.querySelector('.big-decision-select');
-                if(decSelect) decSelect.dispatchEvent(new Event('change'));
-            }
+            if (docId === 'doc-fo-op-15') AppCom.FO_OP_15.loadCustomData(data);
         },
         clearForm: function() {
             Swal.fire({
@@ -132,7 +117,7 @@ const AppCom = {
         printForm: function() { window.print(); }
     },
 
-    // --- MÓDULO OP-15: VENTAS / PEDIDOS ---
+    // --- MÓDULO OP-15: REGISTRO DE PEDIDOS ---
     FO_OP_15: {
         init: function() {
             if(document.querySelector('#tbl-pedidos tbody').children.length === 0) {
@@ -197,34 +182,13 @@ const AppCom = {
                 });
             }
         }
-    },
-
-    // --- MÓDULO LC-16: RESUMEN EJECUTIVO ---
-    FO_LC_16: {
-        init: function() {
-            // Lógica de color para el select de decisión
-            const decSelect = document.querySelector('.big-decision-select');
-            if(decSelect) {
-                decSelect.addEventListener('change', function() {
-                    const val = this.value;
-                    if(val === 'LIBERADO') this.style.backgroundColor = '#d4efdf'; // Verde claro
-                    else if(val === 'RECHAZADO') this.style.backgroundColor = '#fadbd8'; // Rojo claro
-                    else if(val === 'CUARENTENA') this.style.backgroundColor = '#fcf3cf'; // Amarillo claro
-                    else this.style.backgroundColor = '#fff';
-                });
-                // Ejecutar al inicio por si hay datos cargados
-                decSelect.dispatchEvent(new Event('change'));
-            }
-        }
     }
 };
 
 document.addEventListener('DOMContentLoaded', ()=>AppCom.init());
 
-// EXPORTS GLOBALES PARA EL HTML
+// Funciones globales para botones HTML
 window.saveForm = () => AppCom.Universal.saveData(); 
 window.printForm = () => AppCom.Universal.printForm(); 
 window.clearForm = () => AppCom.Universal.clearForm(); 
-
-// Helpers específicos
 window.addPedidoRow = () => AppCom.FO_OP_15.addPedidoRow();
